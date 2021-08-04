@@ -4,7 +4,7 @@ El presente repositorio contiene los pasos del desarrollo del proyecto de la mat
 
 El repositorio tendrá las carpetas:
 
-- **Primer bimestre:** El primer entregable que consta de las [Historias de Usuario](https://www.canva.com/design/DAElWIKRatE/AcC0q053NBZQGnB4XCMy3g/view?utm_content=DAElWIKRatE&utm_campaign=designshare&utm_medium=link&utm_source=sharebutton) , [Modelo Entidad-Relación](https://lucid.app/lucidchart/invitations/accept/inv_34d56e60-dd23-47dc-9281-d51d67c8627c?viewport_loc=-10%2C321%2C1964%2C945%2C0_0) y [el Prototipo](https://www.figma.com/file/BFdenQyS49v0YuTTStHeDp/Proyecto-M%C3%B3viles) del sistema propuesto.
+- **Primer bimestre:** El primer entregable que consta de las [Historias de Usuario](https://www.canva.com/design/DAElWIKRatE/AcC0q053NBZQGnB4XCMy3g/view?utm_content=DAElWIKRatE&utm_campaign=designshare&utm_medium=link&utm_source=sharebutton) , [Modelo Entidad-Relación](https://lucid.app/lucidspark/invitations/accept/inv_7e9e966c-2764-4e61-ab90-6a4184c8f225?view_items=1s20DQHLHlnC) y [el Prototipo](https://www.figma.com/file/BFdenQyS49v0YuTTStHeDp/Proyecto-M%C3%B3viles) del sistema propuesto.
 - **Segundo bimestre:** Desarrollo del sistema (se iniciará en el siguiente bimestre). 
 
 ## Instalación 🔧
