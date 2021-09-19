@@ -12,14 +12,17 @@ class MainActivity : AppCompatActivity() {
 
         val boton = findViewById<Button>(R.id.btn_nav)
         boton.setOnClickListener {
-            abrir()
+            abrir(VisualizarActividad::class.java)
+        }
+
+        val botonListar = findViewById<Button>(R.id.btn_listar)
+        botonListar.setOnClickListener {
+            abrir(ListaDeActividades::class.java)
         }
     }
-    fun abrir(){
-        val intent = Intent(
-            this,
-            VisualizarActividad::class.java
-        )
+
+    fun abrir(actividad: Class<*>){
+        val intent = Intent(this, actividad)
         startActivity(intent)
     }
 }

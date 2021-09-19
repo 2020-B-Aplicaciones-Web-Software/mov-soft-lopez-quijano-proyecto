@@ -3,8 +3,6 @@ package com.example.proyecto_segundo_bimestre_lopez_quijano
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,9 +11,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.forEachIndexed
-import androidx.core.view.get
 import com.example.proyecto_segundo_bimestre_lopez_quijano.databinding.ActivityListaDeActividadesBinding
+import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Lista
+import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Usuario
 
 class ListaDeActividades : AppCompatActivity() {
 
@@ -39,6 +37,7 @@ class ListaDeActividades : AppCompatActivity() {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_lista_de_actividades)
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
@@ -54,31 +53,38 @@ class ListaDeActividades : AppCompatActivity() {
 
     }
 
-    fun agregarItems(navView: NavigationView, drawerLayout: DrawerLayout) {
-        val menu: Menu = navView.menu
-        // TODO: Obtener los documentos de listas
-        val listas: MutableList<String> = ArrayList<String>()
-        listas.add("Lista 1")
-        listas.add("Lista 2")
-        listas.add("Lista 3")
-
-        // Agrega las opciones al menu y agrega la funcion
-        listas.forEachIndexed { i, it ->
-            menu.add(0, i, i, it).setOnMenuItemClickListener {
-                Log.i("asd", "CLICKEE ${it.itemId} ${it.title}")
-                return@setOnMenuItemClickListener false
-            }
-        }
-        drawerLayout.closeDrawers()
+    // TODO: ELIMINAR
+    fun datosEjemplo(): ArrayList<Lista> {
+        val usuarioEjemplo = Usuario(
+            "ID_usuario_1",
+            "Juan",
+            "Suasnabas",
+            "user@email.com",
+            "01/01/2020",
+            "hash123"
+        )
+        val listas = ArrayList<Lista>()
+        listas.add(Lista("ID_lista_1", "Lista 1", arrayListOf(usuarioEjemplo), "ID_usuario_1"))
+        listas.add(Lista("ID_lista_1", "Lista 1", arrayListOf(usuarioEjemplo), "ID_usuario_1"))
+        listas.add(Lista("ID_lista_1", "Lista 1", arrayListOf(usuarioEjemplo), "ID_usuario_1"))
+        return listas
     }
 
-    fun obtenerListaSeleccionada(navigation: NavigationView): Int {
-        val menu = navigation.menu
-        menu.forEachIndexed { i, item ->
-            if (item.isChecked)
-                return i
+    fun agregarItems(navView: NavigationView, drawerLayout: DrawerLayout) {
+        val menu: Menu = navView.menu
+
+        // TODO: Obtener los documentos de listas
+        val listas = datosEjemplo()
+
+        // Agrega las opciones al menu y agrega la funcion
+        listas.forEachIndexed { i, lista ->
+            menu.add(0, i, i, lista.nombre)
+                .setOnMenuItemClickListener { item ->
+                    Log.i("asd", "CLICKEE ${item.itemId} ${item.title}")
+                    return@setOnMenuItemClickListener false
+                }
         }
-        return 0
+        drawerLayout.closeDrawers()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

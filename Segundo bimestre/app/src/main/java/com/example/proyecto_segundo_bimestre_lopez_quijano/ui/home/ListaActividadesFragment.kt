@@ -1,4 +1,4 @@
-package com.example.proyecto_segundo_bimestre_lopez_quijano.ui.slideshow
+package com.example.proyecto_segundo_bimestre_lopez_quijano.ui.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.proyecto_segundo_bimestre_lopez_quijano.R
-import com.example.proyecto_segundo_bimestre_lopez_quijano.databinding.FragmentSlideshowBinding
+import com.example.proyecto_segundo_bimestre_lopez_quijano.databinding.FragmentHomeBinding
 
-class SlideshowFragment : Fragment() {
+class ListaActividadesFragment : Fragment() {
 
-    private lateinit var slideshowViewModel: SlideshowViewModel
-    private var _binding: FragmentSlideshowBinding? = null
+    private lateinit var listaActividadesViewModel: ListaActividadesViewModel
+    private var _binding: FragmentHomeBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,14 +24,14 @@ class SlideshowFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        slideshowViewModel =
-            ViewModelProvider(this).get(SlideshowViewModel::class.java)
+        listaActividadesViewModel =
+            ViewModelProvider(this).get(ListaActividadesViewModel::class.java)
 
-        _binding = FragmentSlideshowBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textSlideshow
-        slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
+        val textView: TextView = binding.textHome
+        listaActividadesViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root
