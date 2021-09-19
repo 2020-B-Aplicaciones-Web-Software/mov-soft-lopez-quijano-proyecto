@@ -17,7 +17,6 @@ class CrearActividad : AppCompatActivity() {
             "Juan",
             "Suasnabas",
             "user@email.com",
-            "01/01/2020",
             "hash123"
         )
         val lista = Lista("ID_lista_1", "Lista 1", arrayListOf(usuarioEjemplo), "ID_usuario_1")

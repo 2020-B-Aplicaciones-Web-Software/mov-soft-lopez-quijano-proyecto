@@ -8,11 +8,9 @@ class Usuario(
     val nombre: String?,
     val apellido: String?,
     val correo: String?,
-    val fechaNacimiento: String?,
     val contrasena: String?  // TODO: Hash?
 ): Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -30,7 +28,6 @@ class Usuario(
         parcel.writeString(nombre)
         parcel.writeString(apellido)
         parcel.writeString(correo)
-        parcel.writeString(fechaNacimiento)
         parcel.writeString(contrasena)
     }
 

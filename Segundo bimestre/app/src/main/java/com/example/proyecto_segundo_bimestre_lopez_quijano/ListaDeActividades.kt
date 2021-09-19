@@ -94,7 +94,6 @@ class ListaDeActividades : AppCompatActivity() {
             "Juan",
             "Suasnabas",
             "user@email.com",
-            "01/01/2020",
             "hash123"
         )
         val listas = ArrayList<Lista>()
@@ -109,7 +108,6 @@ class ListaDeActividades : AppCompatActivity() {
             "Juan",
             "Suasnabas",
             "user@email.com",
-            "01/01/2020",
             "hash123"
         )
         val actividades = ArrayList<Actividad>()
