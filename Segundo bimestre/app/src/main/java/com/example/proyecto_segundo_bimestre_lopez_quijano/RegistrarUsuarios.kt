@@ -81,7 +81,7 @@ class RegistrarUsuarios : AppCompatActivity() {
         val referencia = db.collection("Usuario")
 
         //Obtener todos los datos requeridos
-        val nuevoCorreo = hashMapOf<String, Any>(
+        val nuevoUsuario = hashMapOf<String, Any>(
             "uid" to mAuth.currentUser!!.uid,
             "nombre" to nombre,
             "apellido" to apellido,
@@ -91,7 +91,7 @@ class RegistrarUsuarios : AppCompatActivity() {
         //Almacenar usuario
         referencia
             .document(correo)
-            .set(nuevoCorreo)
+            .set(nuevoUsuario)
             .addOnSuccessListener {
                 Log.i("Firebase", "Creación de usuario exitosa")
             }

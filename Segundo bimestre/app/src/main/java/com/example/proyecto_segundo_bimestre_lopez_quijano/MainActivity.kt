@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import androidx.appcompat.app.AlertDialog
+import com.example.proyecto_segundo_bimestre_lopez_quijano.autenticacion.UsuarioAutorizado
 
 
 class MainActivity : AppCompatActivity() {
@@ -47,8 +48,11 @@ class MainActivity : AppCompatActivity() {
                 mAuth.signInWithEmailAndPassword(correo,contrasena)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
+                            UsuarioAutorizado.email = correo
                             cargando()
                             abrirActividad(ListaDeActividades::class.java)
+                            //Cierra la app si trata de regresar al login
+                            finish()
                         } else {
                             Toast.makeText(applicationContext, "Problemas de registro de usuario, compruebe los datos", Toast.LENGTH_SHORT).show()
                         }
