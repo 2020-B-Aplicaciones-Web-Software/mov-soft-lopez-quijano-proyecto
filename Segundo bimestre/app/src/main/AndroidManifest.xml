@@ -28,7 +28,8 @@
             android:label="Nueva Actividad" />
         <activity
             android:name=".ConfigurarLista"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Configurar Lista"/>
         <activity
             android:name=".ListaDeActividades"
             android:exported="true"

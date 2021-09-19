@@ -7,11 +7,9 @@ class Usuario(
     val id: String?,
     val nombre: String?,
     val apellido: String?,
-    val correo: String?,
-    val contrasena: String?  // TODO: Hash?
+    val correo: String?
 ): Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -28,7 +26,6 @@ class Usuario(
         parcel.writeString(nombre)
         parcel.writeString(apellido)
         parcel.writeString(correo)
-        parcel.writeString(contrasena)
     }
 
     override fun describeContents(): Int {

@@ -4,13 +4,9 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class Etiqueta(
-    val id: String?,
-    val nombre: String?,
-    val descripcion: String?
+    val nombre: String?
 ): Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readString(),
-        parcel.readString(),
         parcel.readString()
     ) {
     }
@@ -20,9 +16,7 @@ class Etiqueta(
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
         parcel.writeString(nombre)
-        parcel.writeString(descripcion)
     }
 
     override fun describeContents(): Int {

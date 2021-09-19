@@ -7,7 +7,8 @@ class Lista(
     val id: String?,
     val nombre: String?,
     val usuarios: ArrayList<Usuario>?,
-    val idPropietario: String?
+    val correoPropietario: String?,
+    val etiquetas: ArrayList<Etiqueta>?
 ):Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -15,7 +16,10 @@ class Lista(
         arrayListOf<Usuario>().apply {
             parcel.readList(this, Usuario.javaClass.classLoader)
         },
-        parcel.readString()
+        parcel.readString(),
+        arrayListOf<Etiqueta>().apply {
+            parcel.readList(this, Etiqueta.javaClass.classLoader)
+        }
     ) {
     }
 
@@ -27,7 +31,8 @@ class Lista(
         parcel.writeString(id)
         parcel.writeString(nombre)
         parcel.writeList(usuarios)
-        parcel.writeString(idPropietario)
+        parcel.writeString(correoPropietario)
+        parcel.writeList(etiquetas)
     }
 
     override fun describeContents(): Int {

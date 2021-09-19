@@ -16,16 +16,24 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.example.proyecto_segundo_bimestre_lopez_quijano.autenticacion.UsuarioAutorizado
 import com.example.proyecto_segundo_bimestre_lopez_quijano.databinding.ActivityListaDeActividadesBinding
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Actividad
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Etiqueta
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Lista
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Usuario
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class ListaDeActividades : AppCompatActivity() {
 
     // Intent Explicito
     val CODIGO_RESPUESTA_INTENT_EXPLICITO = 401
+
+    // Referencias Firestore
+    val db = Firebase.firestore
+    val coleccionLista = db.collection("Lista")
+    //val coleccionActividad = db.collection("Actividad")
 
     // Listas obtenidas
     val listaListas: MutableList<Lista> = ArrayList()
@@ -56,16 +64,15 @@ class ListaDeActividades : AppCompatActivity() {
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_lista_de_actividades)
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        // Configurar fragmentos top level
         appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_lista_actividades// TODO: Ver si se pone algo aqui //R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
-            ), drawerLayout
+            setOf(R.id.nav_lista_actividades), drawerLayout
         )
 
-        agregarListasAlMenu(navView, drawerLayout)
+        // Agregar items al menu desplegable
+        obtenerListas()
 
+        // List View
         val listViewActividades = findViewById<ListView>(R.id.lv_actividades)
         listViewActividades.setOnItemClickListener { adapterView, view, position, l ->
             abrirActividadEnviandoActividad(
@@ -74,6 +81,7 @@ class ListaDeActividades : AppCompatActivity() {
             )
         }
 
+        // Configurar lista
         val botonConfigurarLista = findViewById<Button>(R.id.btn_configurar_lista)
         botonConfigurarLista.setOnClickListener {
             abrirActividadEnviandoLista(
@@ -87,72 +95,43 @@ class ListaDeActividades : AppCompatActivity() {
 
     }
 
-    // TODO: ELIMINAR
-    fun datosEjemplo(): ArrayList<Lista> {
-        val usuarioEjemplo = Usuario(
-            "ID_usuario_1",
-            "Juan",
-            "Suasnabas",
-            "user@email.com",
-            "hash123"
-        )
-        val listas = ArrayList<Lista>()
-        listas.add(Lista("ID_lista_1", "Lista 1", arrayListOf(usuarioEjemplo), "ID_usuario_1"))
-        listas.add(Lista("ID_lista_2", "Lista 2", arrayListOf(usuarioEjemplo), "ID_usuario_1"))
-        listas.add(Lista("ID_lista_3", "Lista 3", arrayListOf(usuarioEjemplo), "ID_usuario_1"))
-        return listas
+    fun obtenerListas() {
+        // Obtener documentas de Lista
+        coleccionLista
+            .whereArrayContains("usuarios", UsuarioAutorizado.email!!)
+            .get()
+            .addOnSuccessListener { documents ->
+                documents.forEach { doc ->
+                    // Usuarios de la lista
+                    val usuariosArray = doc["usuarios"] as ArrayList<String>
+                    val usuarios = usuariosArray.map { user ->
+                        Usuario(null, null, null, user)
+                    }
+                    // Etiquetas de la lista
+                    val etiquetasArray = doc["etiquetas"] as ArrayList<String>
+                    val etiquetas = etiquetasArray.map { user ->
+                        Etiqueta(user.toString())
+                    }
+                    Log.i("asd", "Usuarios obtenidos de DB: ${usuarios}")
+                    // Lista
+                    listaListas.add(Lista(
+                        doc["id"].toString(),
+                        doc["nombre"].toString(),
+                        ArrayList(usuarios),
+                        doc["correo_propietario"].toString(),
+                        ArrayList(etiquetas)
+                    ))
+                }
+                // Actualizar vista
+                val drawerLayout: DrawerLayout = binding.drawerLayout
+                val navView: NavigationView = binding.navView
+                agregarListasAlMenu(navView, drawerLayout)
+            }
     }
-    fun datosEjemploActividades(): ArrayList<Actividad> {
-        val usuarioEjemplo = Usuario(
-            "ID_usuario_1",
-            "Juan",
-            "Suasnabas",
-            "user@email.com",
-            "hash123"
-        )
-        val actividades = ArrayList<Actividad>()
-        actividades.add(Actividad(
-            "ID_act_1",
-            "Actividad 1",
-            "Descripcion Act1",
-            "01/01/2000",
-            "01/01/2021",
-            5,
-            Etiqueta("ID_et_1", "Etiqueta 1", "Descripcion Et1"),
-            usuarioEjemplo
-        ))
-        actividades.add(Actividad(
-            "ID_act_2",
-            "Actividad 2",
-            "Descripcion Act2",
-            "01/01/2000",
-            "01/01/2021",
-            4,
-            Etiqueta("ID_et_1", "Etiqueta 1", "Descripcion Et1"),
-            usuarioEjemplo
-        ))
-        actividades.add(Actividad(
-            "ID_act_3",
-            "Actividad 3",
-            "Descripcion Act3",
-            "01/01/2000",
-            "01/01/2021",
-            5,
-            Etiqueta("ID_et_2", "Etiqueta 2", "Descripcion Et2"),
-            usuarioEjemplo
-        ))
-        return actividades
-    }
-
 
     fun agregarListasAlMenu(navView: NavigationView, drawerLayout: DrawerLayout) {
         val menu: Menu = navView.menu
         val subMenu: SubMenu = menu.addSubMenu("Listas")
-
-        // TODO: Obtener los documentos de listas
-        datosEjemplo().forEach {
-            listaListas.add(it)
-        }
 
         // Mostrar siempre la primera lista
         mostrarActividadesDeListaActual(listaListas[0])
@@ -172,30 +151,51 @@ class ListaDeActividades : AppCompatActivity() {
         // Boton para agregar listas
         // TODO: icono de '+'
         subMenu.add("Agregar lista")
+            .setIcon(resources.getDrawable(R.drawable.ic_add_list))
             .setOnMenuItemClickListener {
                 abrirActividad(AgregarLista::class.java)
                 drawerLayout.closeDrawers()
                 return@setOnMenuItemClickListener false
             }
-
     }
 
     fun mostrarActividadesDeListaActual(lista: Lista) {
         listaActividades.clear()
         this.setTitle(lista.nombre)
 
-        // TODO: Obtener actividades de la Lista
-        datosEjemploActividades().forEach {
-            listaActividades.add(it)
-        }
-
-        val listViewActividades = findViewById<ListView>(R.id.lv_actividades)
-        val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_list_item_1,
-            listaActividades
-        )
-        listViewActividades.adapter = adapter
+        // Obtener actividades de Lista
+        val subcoleccionActividad = db.collection("Lista/${lista.id}/Actividad")
+        subcoleccionActividad.get()
+            .addOnSuccessListener { documents ->
+                documents.forEach { doc ->
+                    // Usuario
+                    val usuarioMap = doc["usuario_creador"] as HashMap<String, Any>
+                    val usuarioCreador = Usuario(
+                        null,
+                        usuarioMap["nombre"].toString(),
+                        usuarioMap["apellido"].toString(),
+                        null
+                    )
+                    // Actividad
+                    listaActividades.add(Actividad(
+                        doc["id"].toString(),
+                        doc["titulo"].toString(),
+                        doc["descripcion"].toString(),
+                        doc["fecha_creacion"].toString(),
+                        doc["fecha_vencimiento"].toString(),
+                        doc["prioridad"].toString().toInt(),
+                        Etiqueta(doc["etiqueta"].toString()),
+                        usuarioCreador
+                    ))
+                }
+                val listViewActividades = findViewById<ListView>(R.id.lv_actividades)
+                val adapter = ArrayAdapter(
+                    this,
+                    android.R.layout.simple_list_item_1,
+                    listaActividades
+                )
+                listViewActividades.adapter = adapter
+            }
     }
 
     fun abrirActividad(clase: Class<*>) {
