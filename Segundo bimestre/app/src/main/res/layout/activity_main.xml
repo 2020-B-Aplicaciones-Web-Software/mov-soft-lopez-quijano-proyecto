@@ -53,7 +53,7 @@
             android:layout_height="10dp" />
 
         <EditText
-            android:id="@+id/et_contraseñaLogin"
+            android:id="@+id/et_contrasenaLogin"
             android:layout_width="300dp"
             android:layout_height="48dp"
             android:background="@drawable/et_borders"

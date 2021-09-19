@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 class RegistrarUsuarios : AppCompatActivity() {
@@ -55,9 +57,8 @@ class RegistrarUsuarios : AppCompatActivity() {
                     mAuth.createUserWithEmailAndPassword(correo, contrasena)
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
-                                abrirMensaje()
                                 crearRegistro(nombre, apellido, correo, contrasena)
-                                abrirActividad(MainActivity::class.java)
+                                abrirMensaje()
                             } else {
                                 Toast.makeText(applicationContext, "Problemas de registro de usuario, compruebe los datos", Toast.LENGTH_SHORT).show()
                             }
@@ -75,6 +76,28 @@ class RegistrarUsuarios : AppCompatActivity() {
 
     fun crearRegistro(nombre : String, apellido: String, correo: String, contrasena: String){
 
+        //Referencia a la base de datos
+        val db = Firebase.firestore
+        val referencia = db.collection("Usuario")
+
+        //Obtener todos los datos requeridos
+        val nuevoCorreo = hashMapOf<String, Any>(
+            "uid" to mAuth.currentUser!!.uid,
+            "nombre" to nombre,
+            "apellido" to apellido,
+            "correo" to correo
+        )
+
+        //Almacenar usuario
+        referencia
+            .document(correo)
+            .set(nuevoCorreo)
+            .addOnSuccessListener {
+                Log.i("Firebase", "Creación de usuario exitosa")
+            }
+            .addOnFailureListener {
+                Log.i("Firebase", "Creación de usuario fallida")
+            }
     }
 
     fun abrirMensaje(){
@@ -84,6 +107,7 @@ class RegistrarUsuarios : AppCompatActivity() {
         builder.setPositiveButton(
             "Aceptar",
             DialogInterface.OnClickListener{ dialog, which ->
+                abrirActividad(MainActivity::class.java)
                 Log.i("Dialogo","Creación exitosa del usuario")
             }
         )
