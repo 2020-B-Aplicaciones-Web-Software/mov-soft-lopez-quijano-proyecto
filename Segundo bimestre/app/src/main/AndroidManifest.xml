@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.proyecto_segundo_bimestre_lopez_quijano">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,16 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoSegundoBimestre_LopezQuijano">
         <activity
-            android:name=".AgregarLista"
-            android:label="Agregar Lista"
+            android:name=".RegistrarUsuarios"
             android:exported="true" />
+        <activity
+            android:name=".AgregarLista"
+            android:exported="true"
+            android:label="Agregar Lista" />
         <activity
             android:name=".VisualizarActividad"
             android:exported="true" />
         <activity
             android:name=".CrearActividad"
-            android:label="Nueva Actividad"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Nueva Actividad" />
         <activity
             android:name=".ConfigurarLista"
             android:exported="true" />
