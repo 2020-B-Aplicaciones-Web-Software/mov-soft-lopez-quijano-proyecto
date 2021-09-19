@@ -10,10 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoSegundoBimestre_LopezQuijano">
         <activity
+            android:name=".AgregarLista"
+            android:label="Agregar Lista"
+            android:exported="true" />
+        <activity
             android:name=".VisualizarActividad"
             android:exported="true" />
         <activity
             android:name=".CrearActividad"
+            android:label="Nueva Actividad"
             android:exported="true" />
         <activity
             android:name=".ConfigurarLista"

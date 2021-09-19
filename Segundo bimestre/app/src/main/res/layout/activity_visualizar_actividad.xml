@@ -7,20 +7,21 @@
     tools:context=".VisualizarActividad">
 
     <Spinner
-        android:id="@+id/sp_etiquetaCrear3"
+        android:id="@+id/sp_etiquetaVisualizar"
         android:layout_width="150dp"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:layout_marginTop="17dp"
         android:background="@drawable/sp_borders"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toEndOf="@+id/tv_etiquetaCrear3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate3" />
+        app:layout_constraintStart_toEndOf="@+id/tv_etiquetaVisualizar"
+        app:layout_constraintTop_toBottomOf="@+id/et_fechaVisualizar"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
-        android:id="@+id/editTextDate3"
+        android:id="@+id/et_fechaVisualizar"
         android:layout_width="150dp"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:layout_marginTop="17dp"
         android:background="@drawable/et_borders"
         android:ems="10"
@@ -28,18 +29,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toEndOf="@+id/tv_vencimientoVisualizar"
-        app:layout_constraintTop_toBottomOf="@+id/sp_prioridadCrear3" />
+        app:layout_constraintTop_toBottomOf="@+id/sp_prioridadVisualizar"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <Spinner
-        android:id="@+id/sp_prioridadCrear3"
+        android:id="@+id/sp_prioridadVisualizar"
         android:layout_width="150dp"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:layout_marginTop="18dp"
         android:background="@drawable/sp_borders"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.464"
         app:layout_constraintStart_toEndOf="@+id/tv_prioridadVisualizar"
-        app:layout_constraintTop_toBottomOf="@+id/et_descripcionVisualizar" />
+        app:layout_constraintTop_toBottomOf="@+id/et_descripcionVisualizar"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/tv_prioridadVisualizar"
@@ -55,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/et_descripcionVisualizar" />
 
     <TextView
-        android:id="@+id/tv_etiquetaCrear3"
+        android:id="@+id/tv_etiquetaVisualizar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -92,7 +95,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.459"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_tituloActualizar" />
+        app:layout_constraintTop_toBottomOf="@+id/et_tituloActualizar"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/tv_descripcionVisualizar"
@@ -170,13 +174,15 @@
 
     <EditText
         android:id="@+id/et_tituloActualizar"
-        android:layout_width="300dp"
-        android:layout_height="45dp"
+        android:layout_width="350dp"
+        android:layout_height="48dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/et_title"
         android:ems="10"
         android:inputType="text"
         android:text="Título"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
