@@ -13,6 +13,7 @@
         android:theme="@style/Theme.ProyectoSegundoBimestre_LopezQuijano">
         <activity
             android:name=".RegistrarUsuarios"
+            android:label="Collaborative activities agenda"
             android:exported="true" />
         <activity
             android:name=".AgregarLista"
@@ -35,6 +36,7 @@
             android:theme="@style/Theme.ProyectoSegundoBimestre_LopezQuijano.NoActionBar" />
         <activity
             android:name=".MainActivity"
+            android:label="Collaborative activities agenda"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

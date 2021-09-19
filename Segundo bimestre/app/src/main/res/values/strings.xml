@@ -11,4 +11,5 @@
 
     <string name="titulo_lista_actividades">Lista de actividades</string>
     <string name="tv_register"><u>Regístrate aquí</u></string>
+    <string name="tv_regresar"><u>Regresar</u></string>
 </resources>
