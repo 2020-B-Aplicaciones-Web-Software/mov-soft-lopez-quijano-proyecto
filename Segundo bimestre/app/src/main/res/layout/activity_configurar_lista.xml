@@ -6,4 +6,65 @@
     android:layout_height="match_parent"
     tools:context=".ConfigurarLista">
 
+    <TextView
+        android:id="@+id/tv_tituloConfigurarLista"
+        android:layout_width="195dp"
+        android:layout_height="31dp"
+        android:text="Título de la lista:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.217"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.061" />
+
+    <EditText
+        android:id="@+id/et_tituloConfigurarLista"
+        android:layout_width="324dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/et_borders"
+        android:ems="10"
+        android:hint="Ingrese un nombre"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="@+id/tv_tituloConfigurarLista"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_tituloConfigurarLista"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tituloConfigurarLista" />
+
+    <TextView
+        android:id="@+id/tv_descripcionCrear2"
+        android:layout_width="210dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="36dp"
+        android:text="Miembros de la lista:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/et_tituloConfigurarLista"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/et_tituloConfigurarLista"
+        app:layout_constraintTop_toBottomOf="@+id/et_tituloConfigurarLista" />
+
+    <Button
+        android:id="@+id/btn_actualizarCambiosLista"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="Actualizar cambios"
+        android:textAllCaps="true"
+        app:layout_constraintEnd_toEndOf="@+id/lv_miembrosLista"
+        app:layout_constraintStart_toStartOf="@+id/lv_miembrosLista"
+        app:layout_constraintTop_toBottomOf="@+id/lv_miembrosLista" />
+
+    <ListView
+        android:id="@+id/lv_miembrosLista"
+        android:layout_width="321dp"
+        android:layout_height="270dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_descripcionCrear2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_descripcionCrear2"
+        app:layout_constraintTop_toBottomOf="@+id/tv_descripcionCrear2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

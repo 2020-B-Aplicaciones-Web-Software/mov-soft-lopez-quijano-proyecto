@@ -2,8 +2,6 @@ package com.example.proyecto_segundo_bimestre_lopez_quijano
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Lista
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Usuario
 

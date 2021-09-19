@@ -4,19 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.ListaActividadesFragment">
+    tools:context=".view.Lista.ListaActividadesFragment">
 
-    <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btn_configurar_lista"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+        android:layout_marginTop="44dp"
+        android:text="Configurar lista"
+        android:textAllCaps="true"
+        app:layout_constraintEnd_toEndOf="@+id/lv_actividades"
+        app:layout_constraintStart_toStartOf="@+id/lv_actividades"
+        app:layout_constraintTop_toBottomOf="@+id/lv_actividades" />
+
+    <Button
+        android:id="@+id/btn_agregar_nueva_actividad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Agregar nueva actividad"
+        android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.141"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.038" />
+
+    <ListView
+        android:id="@+id/lv_actividades"
+        android:layout_width="371dp"
+        android:layout_height="352dp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_agregar_nueva_actividad"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/btn_agregar_nueva_actividad"
+        app:layout_constraintTop_toBottomOf="@+id/btn_agregar_nueva_actividad" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
