@@ -12,7 +12,9 @@ class Lista(
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
-        parcel.readArrayList(Usuario.javaClass.classLoader) as ArrayList<Usuario>?,
+        arrayListOf<Usuario>().apply {
+            parcel.readList(this, Usuario.javaClass.classLoader)
+        },
         parcel.readString()
     ) {
     }
@@ -24,7 +26,7 @@ class Lista(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(nombre)
-        parcel.writeArray(arrayOf(usuarios))
+        parcel.writeList(usuarios)
         parcel.writeString(idPropietario)
     }
 

@@ -13,6 +13,7 @@
         android:layout_marginTop="28dp"
         android:background="@drawable/et_borders"
         android:ems="10"
+        android:hint="Ingrese un nombre"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -48,8 +49,8 @@
 
     <ListView
         android:id="@+id/lv_miembrosListaCrear"
-        android:layout_width="225dp"
-        android:layout_height="160dp"
+        android:layout_width="280dp"
+        android:layout_height="190dp"
         android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="@+id/et_tituloListaCrear"
         app:layout_constraintHorizontal_bias="0.506"

@@ -2,6 +2,7 @@ package com.example.proyecto_segundo_bimestre_lopez_quijano
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.SubMenu
 import android.widget.ArrayAdapter
@@ -169,7 +170,15 @@ class ListaDeActividades : AppCompatActivity() {
                     return@setOnMenuItemClickListener false
                 }
         }
+
+        // Boton para agregar listas
+        // TODO: icono de '+'
         subMenu.add("Agregar lista")
+            .setOnMenuItemClickListener {
+                abrirActividad(AgregarLista::class.java)
+                drawerLayout.closeDrawers()
+                return@setOnMenuItemClickListener false
+            }
 
     }
 
@@ -189,6 +198,11 @@ class ListaDeActividades : AppCompatActivity() {
             listaActividades
         )
         listViewActividades.adapter = adapter
+    }
+
+    fun abrirActividad(clase: Class<*>) {
+        val intent = Intent(this, clase)
+        startActivity(intent)
     }
 
     fun abrirActividadEnviandoLista(clase: Class<*>, lista: Lista) {
