@@ -97,7 +97,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toEndOf="@+id/tv_etiquetaCrear"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate"
+        app:layout_constraintTop_toBottomOf="@+id/et_fechaVencimientoCrear"
         app:layout_constraintVertical_bias="0.039" />
 
     <TextView
@@ -114,7 +114,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_prioridadCrear" />
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/et_fechaVencimientoCrear"
         android:layout_width="150dp"
         android:layout_height="45dp"
         android:layout_marginTop="16dp"

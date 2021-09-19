@@ -90,6 +90,15 @@ class ListaDeActividades : AppCompatActivity() {
             )
         }
 
+        // Agregar Actividad
+        val botonAgregarActividad = findViewById<Button>(R.id.btn_agregar_nueva_actividad)
+        botonAgregarActividad.setOnClickListener {
+            abrirActividadEnviandoLista(
+                CrearActividad::class.java,
+                listaListas[indiceListaSeleccionada]
+            )
+        }
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
