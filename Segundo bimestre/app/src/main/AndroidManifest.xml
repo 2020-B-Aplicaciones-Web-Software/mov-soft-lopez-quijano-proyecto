@@ -16,6 +16,9 @@
             android:name=".CrearActividad"
             android:exported="true" />
         <activity
+            android:name=".ConfigurarLista"
+            android:exported="true" />
+        <activity
             android:name=".ListaDeActividades"
             android:exported="true"
             android:label="@string/title_activity_lista_de_actividades"
