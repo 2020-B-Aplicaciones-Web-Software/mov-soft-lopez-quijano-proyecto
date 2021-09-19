@@ -42,7 +42,7 @@ class ListaDeActividades : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                // TODO: Ver si se pone algo aqui //R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.nav_lista_actividades// TODO: Ver si se pone algo aqui //R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
             ), drawerLayout
         )
 

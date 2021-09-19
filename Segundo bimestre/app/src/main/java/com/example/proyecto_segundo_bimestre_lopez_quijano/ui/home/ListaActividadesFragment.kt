@@ -8,10 +8,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.proyecto_segundo_bimestre_lopez_quijano.databinding.FragmentHomeBinding
+//import com.example.proyecto_segundo_bimestre_lopez_quijano.databinding.FragmentHomeBinding
 
 class ListaActividadesFragment : Fragment() {
-
+/*
     private lateinit var listaActividadesViewModel: ListaActividadesViewModel
     private var _binding: FragmentHomeBinding? = null
 
@@ -41,4 +41,6 @@ class ListaActividadesFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+ */
 }
