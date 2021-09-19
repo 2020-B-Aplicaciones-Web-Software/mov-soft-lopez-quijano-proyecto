@@ -22,6 +22,7 @@ import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Actividad
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Etiqueta
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Lista
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Usuario
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -33,7 +34,6 @@ class ListaDeActividades : AppCompatActivity() {
     // Referencias Firestore
     val db = Firebase.firestore
     val coleccionLista = db.collection("Lista")
-    //val coleccionActividad = db.collection("Actividad")
 
     // Listas obtenidas
     val listaListas: MutableList<Lista> = ArrayList()
@@ -118,10 +118,9 @@ class ListaDeActividades : AppCompatActivity() {
                     }
                     // Etiquetas de la lista
                     val etiquetasArray = doc["etiquetas"] as ArrayList<String>
-                    val etiquetas = etiquetasArray.map { user ->
-                        Etiqueta(user.toString())
+                    val etiquetas = etiquetasArray.map { etiqueta ->
+                        Etiqueta(etiqueta)
                     }
-                    Log.i("asd", "Usuarios obtenidos de DB: ${usuarios}")
                     // Lista
                     listaListas.add(Lista(
                         doc["id"].toString(),
@@ -185,13 +184,15 @@ class ListaDeActividades : AppCompatActivity() {
                         usuarioMap["apellido"].toString(),
                         null
                     )
+                    val fechaCreacion = doc["fecha_creacion"] as Timestamp
+                    val fechaVencimiento = doc["fecha_vencimiento"] as Timestamp
                     // Actividad
                     listaActividades.add(Actividad(
                         doc["id"].toString(),
                         doc["titulo"].toString(),
                         doc["descripcion"].toString(),
-                        doc["fecha_creacion"].toString(),
-                        doc["fecha_vencimiento"].toString(),
+                        fechaCreacion.toDate(),
+                        fechaVencimiento.toDate(),
                         doc["prioridad"].toString().toInt(),
                         Etiqueta(doc["etiqueta"].toString()),
                         usuarioCreador

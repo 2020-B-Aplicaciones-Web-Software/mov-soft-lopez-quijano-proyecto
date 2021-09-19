@@ -2,13 +2,14 @@ package com.example.proyecto_segundo_bimestre_lopez_quijano.entities
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.util.*
 
 class Actividad(
     val id: String?,
     val titulo: String?,
     val descripcion: String?,
-    val fechaCreacion: String?,
-    val fechaVencimiento: String?,
+    val fechaCreacion: Date?,
+    val fechaVencimiento: Date?,
     val prioridad: Int,
     val etiqueta: Etiqueta?,
     val usuarioCreador: Usuario?
@@ -17,8 +18,8 @@ class Actividad(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
+        parcel.readValue(Date::class.java.classLoader) as? Date,
+        parcel.readValue(Date::class.java.classLoader) as? Date,
         parcel.readInt(),
         parcel.readParcelable(Etiqueta::class.java.classLoader),
         parcel.readParcelable(Usuario::class.java.classLoader)
@@ -33,8 +34,8 @@ class Actividad(
         parcel.writeString(id)
         parcel.writeString(titulo)
         parcel.writeString(descripcion)
-        parcel.writeString(fechaCreacion)
-        parcel.writeString(fechaVencimiento)
+        parcel.writeValue(fechaCreacion)
+        parcel.writeValue(fechaVencimiento)
         parcel.writeInt(prioridad)
         parcel.writeParcelable(etiqueta, flags)
         parcel.writeParcelable(usuarioCreador, flags)
