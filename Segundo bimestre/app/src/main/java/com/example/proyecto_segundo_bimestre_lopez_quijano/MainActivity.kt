@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     fun abrir(){
         val intent = Intent(
             this,
-            ListaDeActividades::class.java
+            VisualizarActividad::class.java
         )
         startActivity(intent)
     }

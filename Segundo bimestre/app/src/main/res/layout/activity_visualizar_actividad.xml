@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VisualizarActividad">
+
+    <Spinner
+        android:id="@+id/sp_etiquetaCrear3"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="17dp"
+        android:background="@drawable/sp_borders"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toEndOf="@+id/tv_etiquetaCrear3"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDate3" />
+
+    <EditText
+        android:id="@+id/editTextDate3"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="17dp"
+        android:background="@drawable/et_borders"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toEndOf="@+id/tv_vencimientoVisualizar"
+        app:layout_constraintTop_toBottomOf="@+id/sp_prioridadCrear3" />
+
+    <Spinner
+        android:id="@+id/sp_prioridadCrear3"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/sp_borders"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.464"
+        app:layout_constraintStart_toEndOf="@+id/tv_prioridadVisualizar"
+        app:layout_constraintTop_toBottomOf="@+id/et_descripcionVisualizar" />
+
+    <TextView
+        android:id="@+id/tv_prioridadVisualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Prioridad:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.186"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_descripcionVisualizar" />
+
+    <TextView
+        android:id="@+id/tv_etiquetaCrear3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Etiqueta:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.186"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_vencimientoVisualizar" />
+
+    <TextView
+        android:id="@+id/tv_vencimientoVisualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="Vence el:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.186"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_prioridadVisualizar" />
+
+    <EditText
+        android:id="@+id/et_descripcionVisualizar"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="120dp"
+        android:background="@drawable/et_borders"
+        android:ems="10"
+        android:gravity="top|left"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_tituloActualizar" />
+
+    <TextView
+        android:id="@+id/tv_descripcionVisualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="Descripción:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/et_descripcionVisualizar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.171"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_tituloActualizar"
+        app:layout_constraintVertical_bias="0.945" />
+
+    <TextView
+        android:id="@+id/tv_creadoElVisualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Creado el:"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tv_creadoPorVisualizar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.165"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_tituloActualizar"
+        app:layout_constraintVertical_bias="0.451" />
+
+    <TextView
+        android:id="@+id/tv_fechaVisualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="1dp"
+        android:text="Fecha"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_creadoElVisualizar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintStart_toEndOf="@+id/tv_creadoElVisualizar"
+        app:layout_constraintTop_toBottomOf="@+id/et_tituloActualizar"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/tv_usuarioVisualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:text="Nombre usuario"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_creadoPorVisualizar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.111"
+        app:layout_constraintStart_toEndOf="@+id/tv_creadoElVisualizar"
+        app:layout_constraintTop_toBottomOf="@+id/tv_fechaVisualizar" />
+
+    <TextView
+        android:id="@+id/tv_creadoPorVisualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:text="Creado por:"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tv_descripcionVisualizar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.165"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_tituloActualizar"
+        app:layout_constraintVertical_bias="0.206" />
+
+    <EditText
+        android:id="@+id/et_tituloActualizar"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/et_title"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Título"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoSegundoBimestre_LopezQuijano">
         <activity
+            android:name=".VisualizarActividad"
+            android:exported="true" />
+        <activity
+            android:name=".CrearActividad"
+            android:exported="true" />
+        <activity
             android:name=".ListaDeActividades"
             android:exported="true"
             android:label="@string/title_activity_lista_de_actividades"
