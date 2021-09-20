@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
                             UsuarioAutorizado.email = correo
                             cargando()
                             abrirActividad(ListaDeActividades::class.java)
+
                             //Cierra la app si trata de regresar al login
                             finish()
                         } else {
