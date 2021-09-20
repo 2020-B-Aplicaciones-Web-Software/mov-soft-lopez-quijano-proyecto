@@ -53,7 +53,6 @@ class ListaDeActividades : AppCompatActivity() {
         setSupportActionBar(binding.appBarListaDeActividades.toolbar)
 
         /* TODO: Borrar lo relacionado (si no esta ya borrado) a esto para que no ocupe espacio
-
         binding.appBarListaDeActividades.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
@@ -148,8 +147,8 @@ class ListaDeActividades : AppCompatActivity() {
 
         // Agrega las opciones al menu y su funcionalidad
         listaListas.forEachIndexed { index, lista ->
-            // TODO: Agregar icono?
             subMenu.add(lista.nombre)
+                .setIcon(resources.getDrawable(R.drawable.ic_list_icon))
                 .setOnMenuItemClickListener {
                     mostrarActividadesDeListaActual(lista)
                     indiceListaSeleccionada = index
@@ -159,7 +158,6 @@ class ListaDeActividades : AppCompatActivity() {
         }
 
         // Boton para agregar listas
-        // TODO: icono de '+'
         subMenu.add("Agregar lista")
             .setIcon(resources.getDrawable(R.drawable.ic_add_list))
             .setOnMenuItemClickListener {
