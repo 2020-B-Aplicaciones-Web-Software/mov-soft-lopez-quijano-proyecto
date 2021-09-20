@@ -25,6 +25,7 @@ class ConfigurarLista : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_configurar_lista)
 
+        // Recibir intent
         val lista = intent.getParcelableExtra<Lista>("lista")
 
         // Campos
