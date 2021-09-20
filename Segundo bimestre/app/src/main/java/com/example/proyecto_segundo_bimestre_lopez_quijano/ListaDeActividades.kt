@@ -77,7 +77,8 @@ class ListaDeActividades : AppCompatActivity() {
         listViewActividades.setOnItemClickListener { adapterView, view, position, l ->
             abrirActividadEnviandoActividad(
                 VisualizarActividad::class.java,
-                listaActividades[position]
+                listaActividades[position],
+                listaListas[indiceListaSeleccionada]
             )
         }
 
@@ -219,9 +220,10 @@ class ListaDeActividades : AppCompatActivity() {
         startActivityForResult(intentExplicito, CODIGO_RESPUESTA_INTENT_EXPLICITO)
     }
 
-    fun abrirActividadEnviandoActividad(clase: Class<*>, actividad: Actividad) {
+    fun abrirActividadEnviandoActividad(clase: Class<*>, actividad: Actividad, lista: Lista) {
         val intentExplicito = Intent(this, clase)
         intentExplicito.putExtra("actividad", actividad)
+        intentExplicito.putParcelableArrayListExtra("etiquetas", lista.etiquetas)
         startActivityForResult(intentExplicito, CODIGO_RESPUESTA_INTENT_EXPLICITO)
     }
 

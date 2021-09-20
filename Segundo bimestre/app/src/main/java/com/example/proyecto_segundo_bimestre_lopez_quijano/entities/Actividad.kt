@@ -2,6 +2,7 @@ package com.example.proyecto_segundo_bimestre_lopez_quijano.entities
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.text.SimpleDateFormat
 import java.util.*
 
 class Actividad(
@@ -27,7 +28,8 @@ class Actividad(
     }
 
     override fun toString(): String {
-        return "$titulo\n$fechaVencimiento"
+        val format = SimpleDateFormat("dd/MM/yyyy hh:mm a")
+        return "$titulo\n${format.format(fechaVencimiento)}"
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
