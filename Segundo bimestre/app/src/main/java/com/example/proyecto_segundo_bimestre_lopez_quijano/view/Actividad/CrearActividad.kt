@@ -1,4 +1,4 @@
-package com.example.proyecto_segundo_bimestre_lopez_quijano
+package com.example.proyecto_segundo_bimestre_lopez_quijano.view.Actividad
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -19,19 +19,26 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import android.widget.AdapterView
+import com.example.proyecto_segundo_bimestre_lopez_quijano.R
+import com.example.proyecto_segundo_bimestre_lopez_quijano.view.Lista.ListaDeActividades
 
 
 class CrearActividad : AppCompatActivity() {
 
     // Referencias Firestore
     val db = Firebase.firestore
+
     // Arreglos
-    val spinnerPrioridad: MutableList<String> = ArrayList()
-    val spinnerEtiquetas: MutableList<String> = ArrayList()
+    val listaPrioridades: MutableList<String> = ArrayList()
+    val listaEtiquetas: MutableList<String> = ArrayList()
 
     //Usuario
     var usuario = Usuario(null,null,null,null)
     var bandera = false
+
+    // Spinners
+    lateinit var spinnerEtiquetas: Spinner
+    lateinit var spinnerPrioridad: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +46,10 @@ class CrearActividad : AppCompatActivity() {
 
         // Obtener Intent
         val lista = intent.getParcelableExtra<Lista>("lista")
+
+        // Campos
+        spinnerEtiquetas = findViewById(R.id.sp_etiquetaCrear)
+        spinnerPrioridad = findViewById(R.id.sp_prioridadCrear)
 
         // Obtener Etiquetas
         obtenerEtiquetas(lista?.etiquetas!!)
@@ -59,23 +70,20 @@ class CrearActividad : AppCompatActivity() {
            guardarActividad(lista?.id!!)
         }
 
-        val sItems = findViewById<Spinner>(R.id.sp_etiquetaCrear)
-        sItems.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        spinnerEtiquetas.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View,
-                position: Int,
-                id: Long
+                parent: AdapterView<*>?, view: View,
+                position: Int, id: Long
             ) {
-                if(bandera == false){
+                // TODO Segun yo esta bandera no tiene uso?
+                if(!bandera){
                     // Agregar nueva etiqueta
-                    if (position == spinnerEtiquetas.size - 1) {
+                    if (position == listaEtiquetas.size - 1) {
                         bandera = true
-                        agregarNuevaEtiqueta(lista)
+                        mostrarDialogoNuevaEtiqueta(lista)
                         obtenerEtiquetas(lista.etiquetas)
                     }
                 }
-
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         })
@@ -91,8 +99,8 @@ class CrearActividad : AppCompatActivity() {
         val titulo = findViewById<EditText>(R.id.et_tituloCrear).text.toString()
         val descripcion = findViewById<EditText>(R.id.et_descripcionCrear).text.toString()
         val fecha_vencimiento = findViewById<EditText>(R.id.et_fechaVencimientoCrear).text.toString()
-        val prioridad = findViewById<Spinner>(R.id.sp_prioridadCrear).selectedItem.toString().toInt()
-        val etiqueta = findViewById<Spinner>(R.id.sp_etiquetaCrear).selectedItem.toString()
+        val prioridad = spinnerPrioridad.selectedItem.toString().toInt()
+        val etiqueta = spinnerEtiquetas.selectedItem.toString()
 
         if(!titulo.isBlank() && !fecha_vencimiento.isBlank()){
             // Referencia de la sub coleccion
@@ -128,12 +136,12 @@ class CrearActividad : AppCompatActivity() {
                 .addOnFailureListener {
                     Toast.makeText(applicationContext,"Error al crear la Actividad",Toast.LENGTH_SHORT).show()
                 }
-        }else{
+        } else {
             Toast.makeText(applicationContext,"Llene el título y la fecha de vencimiento",Toast.LENGTH_SHORT).show()
         }
     }
 
-    fun agregarNuevaEtiqueta(lista: Lista?) {
+    fun mostrarDialogoNuevaEtiqueta(lista: Lista?) {
         val builder = AlertDialog.Builder(this)
         val txtEtiqueta = EditText(this)
         txtEtiqueta.hint = "Nueva etiqueta"
@@ -152,52 +160,58 @@ class CrearActividad : AppCompatActivity() {
             .setNegativeButton("Cancelar", null)
 
         val dialog = builder.create()
+        dialog.setCancelable(false)
         dialog.show()
 
+        // Aceptar
         dialog.getButton(AlertDialog.BUTTON_POSITIVE)
             .setOnClickListener {
-                // Campo vacio
-                if (txtEtiqueta.text.isEmpty()) {
-                    val msg = Toast.makeText(this, "Llene el campo de etiqueta", Toast.LENGTH_SHORT)
-                    msg.show()
-                }
-                // Etiqueta que ya es miembro de la lista
-                else if (lista?.etiquetas!!.map { it.nombre }.contains(txtEtiqueta.text.toString())) {
-                    val usuarioExistenteMsg = Toast.makeText(
-                        this,
-                        "La etiqueta ya existe",
-                        Toast.LENGTH_SHORT
-                    )
-                    usuarioExistenteMsg.show()
-                }
-                // Se registra la etiqueta
-                else {
-                    agregarEtiqueta(txtEtiqueta.text.toString(),lista)
-                    dialog.dismiss()
+                when {
+                    // Campo vacio
+                    txtEtiqueta.text.isEmpty() -> {
+                        val msg = Toast.makeText(this, "Llene el campo de etiqueta", Toast.LENGTH_SHORT)
+                        msg.show()
+                    }
+                    // Etiqueta que ya esta en la lista
+                    lista?.etiquetas!!.map { it.nombre }.contains(txtEtiqueta.text.toString()) -> {
+                        val usuarioExistenteMsg = Toast.makeText(
+                            this,
+                            "La etiqueta ya existe",
+                            Toast.LENGTH_SHORT
+                        )
+                        usuarioExistenteMsg.show()
+                    }
+                    // Se registra la etiqueta
+                    else -> {
+                        agregarNuevaEtiqueta(txtEtiqueta.text.toString(),lista)
+                        dialog.dismiss()
+                    }
                 }
                 bandera = false
             }
+        // Cancelar
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
             .setOnClickListener {
-                val sItems = findViewById<Spinner>(R.id.sp_etiquetaCrear)
-                sItems.setSelection(0)
+                spinnerEtiquetas.setSelection(0)
                 bandera = false
                 dialog.dismiss()
             }
     }
 
-    fun agregarEtiqueta(etiqueta: String, lista: Lista?) {
-        val posicion = spinnerEtiquetas.size - 1
-        spinnerEtiquetas.add(posicion, etiqueta)
+    fun agregarNuevaEtiqueta(etiqueta: String, lista: Lista?) {
+        val posicion = listaEtiquetas.size - 1
+        listaEtiquetas.add(posicion, etiqueta)
         lista?.etiquetas?.add(Etiqueta(etiqueta))
 
-        val sItems = findViewById<Spinner>(R.id.sp_etiquetaCrear)
-        sItems.setSelection(posicion)
+        spinnerEtiquetas.setSelection(posicion)
 
         val listaDoc = db.collection("Lista").document(lista?.id.toString())
 
         db.runTransaction{ transaction ->
-            transaction.update(listaDoc,"etiquetas", lista?.etiquetas?.map{it.nombre}!!.toMutableList())
+            transaction.update(
+                listaDoc,
+                "etiquetas", lista?.etiquetas?.map{it.nombre}!!.toMutableList()
+            )
         }
     }
 
@@ -233,32 +247,28 @@ class CrearActividad : AppCompatActivity() {
     }
 
     fun obtenerEtiquetas(etiquetas: ArrayList<Etiqueta>){
-        spinnerEtiquetas.clear()
-        spinnerEtiquetas.add("[Sin etiqueta]")
+        listaEtiquetas.clear()
+        listaEtiquetas.add("[Sin etiqueta]")
         for (nombre in etiquetas){
-            spinnerEtiquetas.add(nombre.toString())
+            listaEtiquetas.add(nombre.toString())
         }
-        spinnerEtiquetas.add("+ Añadir etiqueta")
+        listaEtiquetas.add("+ Añadir etiqueta")
 
         val adapter = ArrayAdapter(
-            this, android.R.layout.simple_spinner_dropdown_item, spinnerEtiquetas
+            this, android.R.layout.simple_spinner_dropdown_item, listaEtiquetas
         )
-        val sItems = findViewById<Spinner>(R.id.sp_etiquetaCrear)
 
-        sItems.adapter = adapter
+        spinnerEtiquetas.adapter = adapter
     }
 
     fun obtenerPrioridad(){
-
         for (i in 1..5){
-            spinnerPrioridad.add(i.toString())
+            listaPrioridades.add(i.toString())
         }
-
         val adapter = ArrayAdapter(
-            this, android.R.layout.simple_spinner_item, spinnerPrioridad
+            this, android.R.layout.simple_spinner_item, listaPrioridades
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        val sItems = findViewById<Spinner>(R.id.sp_prioridadCrear)
-        sItems.adapter = adapter
+        spinnerPrioridad.adapter = adapter
     }
 }

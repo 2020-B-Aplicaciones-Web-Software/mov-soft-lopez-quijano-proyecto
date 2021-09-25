@@ -1,4 +1,4 @@
-package com.example.proyecto_segundo_bimestre_lopez_quijano
+package com.example.proyecto_segundo_bimestre_lopez_quijano.view.Login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +10,8 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import androidx.appcompat.app.AlertDialog
+import com.example.proyecto_segundo_bimestre_lopez_quijano.view.Lista.ListaDeActividades
+import com.example.proyecto_segundo_bimestre_lopez_quijano.R
 import com.example.proyecto_segundo_bimestre_lopez_quijano.autenticacion.UsuarioAutorizado
 
 

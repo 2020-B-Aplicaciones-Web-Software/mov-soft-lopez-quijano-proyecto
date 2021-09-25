@@ -1,15 +1,13 @@
-package com.example.proyecto_segundo_bimestre_lopez_quijano
+package com.example.proyecto_segundo_bimestre_lopez_quijano.view.Lista
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.SubMenu
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
-import android.widget.TextView
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -18,6 +16,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.example.proyecto_segundo_bimestre_lopez_quijano.view.Actividad.CrearActividad
+import com.example.proyecto_segundo_bimestre_lopez_quijano.R
+import com.example.proyecto_segundo_bimestre_lopez_quijano.view.Actividad.VisualizarActividad
 import com.example.proyecto_segundo_bimestre_lopez_quijano.autenticacion.UsuarioAutorizado
 import com.example.proyecto_segundo_bimestre_lopez_quijano.databinding.ActivityListaDeActividadesBinding
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Actividad

@@ -1,10 +1,11 @@
-package com.example.proyecto_segundo_bimestre_lopez_quijano
+package com.example.proyecto_segundo_bimestre_lopez_quijano.view.Lista
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import com.example.proyecto_segundo_bimestre_lopez_quijano.R
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Lista
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Usuario
 import com.google.firebase.firestore.ktx.firestore
@@ -20,6 +21,9 @@ class ConfigurarLista : AppCompatActivity() {
     // Lista de usuarios (miembros)
     val listaUsuarios: MutableList<Usuario> = ArrayList()
     val datosListView: MutableList<String> = ArrayList()
+
+    // Intent
+    val CODIGO_RESPUESTA_INTENT_EXPLICITO = 401
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +43,7 @@ class ConfigurarLista : AppCompatActivity() {
         obtenerUsuarios(lista)
         listViewMiembros.setOnItemClickListener { adapterView, view, position, l ->
             if (position == datosListView.size - 1) {
-                agregarMiembro(lista)
+                mostrarDialogoNuevoMiembro(lista)
             }
         }
 
@@ -85,13 +89,19 @@ class ConfigurarLista : AppCompatActivity() {
         }.addOnSuccessListener {
             val msg = Toast.makeText(this, "Actualización exitosa", Toast.LENGTH_SHORT)
             msg.show()
-            // TODO Retornar a la ListaDeActividades enviando la Lista en la que se encontraba
-            // TODO Puede que solo sea llamando a la Actividad (sin parametros)
-            // TODO Si no vale asi, revisar codigo de VisualizarActividad (hace algo similar)
+
+            // TODO Regresar al presionar el boton? o deberia ejecutarse lo siguiente en el onBackPressed
+            // Si es en el onBackPressed, aqui deberia sobrescribirse la lista del intent
+            // De esta manera, en el onBackPressed tomaria la lista del intent (haya o no sido sobrescrita)
+            /*// Retornar a la actividad
+            val intentExplicito = Intent(this, ListaDeActividades::class.java)
+            intentExplicito.putExtra("listaSeleccionada", lista)
+            startActivityForResult(intentExplicito, CODIGO_RESPUESTA_INTENT_EXPLICITO)
+            */
         }
     }
 
-    fun agregarMiembro(lista: Lista?) {
+    fun mostrarDialogoNuevoMiembro(lista: Lista?) {
         val builder = AlertDialog.Builder(this)
         val txtCorreo = EditText(this)
         txtCorreo.hint = "ejemplo@mail.com"

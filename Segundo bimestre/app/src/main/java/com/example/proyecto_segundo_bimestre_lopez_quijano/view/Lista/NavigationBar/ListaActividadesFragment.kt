@@ -1,4 +1,4 @@
-package com.example.proyecto_segundo_bimestre_lopez_quijano.view.Lista
+package com.example.proyecto_segundo_bimestre_lopez_quijano.view.Lista.NavigationBar
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -12,31 +12,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoSegundoBimestre_LopezQuijano">
         <activity
-            android:name=".RegistrarUsuarios"
+            android:name=".view.Login.RegistrarUsuarios"
             android:label="Collaborative activities agenda"
             android:exported="true" />
         <activity
-            android:name=".AgregarLista"
+            android:name=".view.Lista.AgregarLista"
             android:exported="true"
             android:label="Agregar Lista" />
         <activity
-            android:name=".VisualizarActividad"
+            android:name=".view.Actividad.VisualizarActividad"
             android:exported="true" />
         <activity
-            android:name=".CrearActividad"
+            android:name=".view.Actividad.CrearActividad"
             android:exported="true"
             android:label="Nueva Actividad" />
         <activity
-            android:name=".ConfigurarLista"
+            android:name=".view.Lista.ConfigurarLista"
             android:exported="true"
             android:label="Configurar Lista"/>
         <activity
-            android:name=".ListaDeActividades"
+            android:name=".view.Lista.ListaDeActividades"
             android:exported="true"
             android:label="@string/title_activity_lista_de_actividades"
             android:theme="@style/Theme.ProyectoSegundoBimestre_LopezQuijano.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.Login.MainActivity"
             android:label="Collaborative activities agenda"
             android:exported="true">
             <intent-filter>

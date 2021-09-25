@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_lista_actividades"
-        android:name="com.example.proyecto_segundo_bimestre_lopez_quijano.view.Lista.ListaActividadesFragment"
+        android:name="com.example.proyecto_segundo_bimestre_lopez_quijano.view.Lista.NavigationBar.ListaActividadesFragment"
         tools:layout="@layout/fragment_lista_actividades" />
     <!--android:label="@string/menu_home"-->
 
