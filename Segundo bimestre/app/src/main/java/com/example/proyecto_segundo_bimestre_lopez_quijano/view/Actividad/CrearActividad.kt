@@ -32,7 +32,11 @@ class CrearActividad : AppCompatActivity() {
     val listaPrioridades: MutableList<String> = ArrayList()
     val listaEtiquetas: MutableList<String> = ArrayList()
 
+    // Intent
+    val CODIGO_RESPUESTA_INTENT_EXPLICITO = 401
+
     //Usuario
+    // TODO usuario deberia ser un lateinit var
     var usuario = Usuario(null,null,null,null)
     var bandera = false
 
@@ -218,14 +222,14 @@ class CrearActividad : AppCompatActivity() {
     fun abrirMensaje(){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Actividad creada con éxito")
-        builder.setPositiveButton(
-            "Aceptar",
-            DialogInterface.OnClickListener{ dialog, which ->
-                val intent = Intent(this, ListaDeActividades::class.java)
-                startActivity(intent)
-            }
-        )
+        builder.setPositiveButton("Aceptar") { _, _ ->
+            val lista = intent.getParcelableExtra<Lista>("lista")
+            val intentExplicito = Intent(this, ListaDeActividades::class.java)
+            intentExplicito.putExtra("listaSeleccionada", lista)
+            startActivityForResult(intentExplicito, CODIGO_RESPUESTA_INTENT_EXPLICITO)
+        }
         val dialogo = builder.create()
+        dialogo.setCancelable(false)
         dialogo.show()
     }
 

@@ -14,27 +14,33 @@
         <activity
             android:name=".view.Login.RegistrarUsuarios"
             android:label="Collaborative activities agenda"
-            android:exported="true" />
+            android:exported="true"
+            android:noHistory="true"/>
         <activity
             android:name=".view.Lista.AgregarLista"
             android:exported="true"
-            android:label="Agregar Lista" />
+            android:label="Agregar Lista"
+            android:noHistory="true"/>
         <activity
             android:name=".view.Actividad.VisualizarActividad"
-            android:exported="true" />
+            android:exported="true"
+            android:noHistory="true"/>
         <activity
             android:name=".view.Actividad.CrearActividad"
             android:exported="true"
-            android:label="Nueva Actividad" />
+            android:label="Nueva Actividad"
+            android:noHistory="true"/>
         <activity
             android:name=".view.Lista.ConfigurarLista"
             android:exported="true"
-            android:label="Configurar Lista"/>
+            android:label="Configurar Lista"
+            android:noHistory="true"/>
         <activity
             android:name=".view.Lista.ListaDeActividades"
             android:exported="true"
             android:label="@string/title_activity_lista_de_actividades"
-            android:theme="@style/Theme.ProyectoSegundoBimestre_LopezQuijano.NoActionBar" />
+            android:theme="@style/Theme.ProyectoSegundoBimestre_LopezQuijano.NoActionBar"
+            android:noHistory="true"/>
         <activity
             android:name=".view.Login.MainActivity"
             android:label="Collaborative activities agenda"

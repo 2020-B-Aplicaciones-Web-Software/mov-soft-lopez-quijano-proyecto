@@ -1,11 +1,14 @@
 package com.example.proyecto_segundo_bimestre_lopez_quijano.view.Lista
 
+import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.example.proyecto_segundo_bimestre_lopez_quijano.R
 import com.example.proyecto_segundo_bimestre_lopez_quijano.autenticacion.UsuarioAutorizado
+import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Etiqueta
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Lista
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Usuario
 import com.google.firebase.firestore.ktx.firestore
@@ -66,15 +69,38 @@ class AgregarLista : AppCompatActivity() {
 
     fun crearLista() {
         val id = coleccionLista.document().id
-/*
-        val nuevaLista = hashMapOf<String, Any>(
-            "correo"
+        val nuevaLista = Lista(
+            id,
+            txtTitulo.text.toString(),
+            ArrayList(listaUsuarios),
+            UsuarioAutorizado.email!!,
+            arrayListOf<Etiqueta>()
         )
 
         coleccionLista
             .document(id)
-            .set(nuevaLista)
-*/
+            .set(mapOf(
+                "id" to nuevaLista.id,
+                "nombre" to nuevaLista.nombre,
+                "correo_propietario" to nuevaLista.correoPropietario,
+                "usuarios" to nuevaLista.usuarios!!.map{it.correo},
+                "etiquetas" to nuevaLista.etiquetas,
+            ))
+            .addOnSuccessListener {
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Lista creada con éxito")
+                builder.setPositiveButton("Aceptar") { _, _ ->
+                    val intentExplicito = Intent(this, ListaDeActividades::class.java)
+                    intentExplicito.putExtra("listaSeleccionada", nuevaLista)
+                    startActivityForResult(intentExplicito, CODIGO_RESPUESTA_INTENT_EXPLICITO)
+                }
+                val dialogo = builder.create()
+                dialogo.setCancelable(false)
+                dialogo.show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(applicationContext,"Error al crear la Lista",Toast.LENGTH_SHORT).show()
+            }
     }
 
     fun obtenerUsuarios() {
