@@ -2,6 +2,7 @@ package com.example.proyecto_segundo_bimestre_lopez_quijano
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.SubMenu
@@ -46,7 +47,6 @@ class ListaDeActividades : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityListaDeActividadesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -58,8 +58,6 @@ class ListaDeActividades : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
         */
-
-
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_lista_de_actividades)
@@ -103,6 +101,37 @@ class ListaDeActividades : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        Log.i("asd", "ListaDeActividades -> OnCreate")
+    }
+
+    override fun onStart() {
+        Log.i("asd", "onStart")
+        super.onStart()
+    }
+
+    override fun onRestart() {
+        Log.i("asd", "onRestart")
+        super.onRestart()
+    }
+
+    override fun onPause() {
+        Log.i("asd", "onPause")
+        super.onPause()
+    }
+
+    override fun onResume() {
+        Log.i("asd", "onResume")
+        super.onResume()
+    }
+
+    override fun onStop() {
+        Log.i("asd", "onStop")
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        Log.i("asd", "onDesttroy")
+        super.onDestroy()
     }
 
     fun obtenerListas() {
@@ -143,7 +172,12 @@ class ListaDeActividades : AppCompatActivity() {
         val subMenu: SubMenu = menu.addSubMenu("Listas")
 
         // Mostrar siempre la primera lista
-        mostrarActividadesDeListaActual(listaListas[0])
+        val listaSeleccionada = intent.getParcelableExtra<Lista>("listaSeleccionada")
+        if (listaSeleccionada == null) {
+            mostrarActividadesDeListaActual(listaListas[0])
+        } else {
+            mostrarActividadesDeListaActual(listaSeleccionada)
+        }
 
         // Agrega las opciones al menu y su funcionalidad
         listaListas.forEachIndexed { index, lista ->
@@ -222,7 +256,7 @@ class ListaDeActividades : AppCompatActivity() {
     fun abrirActividadEnviandoActividad(clase: Class<*>, actividad: Actividad, lista: Lista) {
         val intentExplicito = Intent(this, clase)
         intentExplicito.putExtra("actividad", actividad)
-        intentExplicito.putParcelableArrayListExtra("etiquetas", lista.etiquetas)
+        intentExplicito.putExtra("lista", lista)
         startActivityForResult(intentExplicito, CODIGO_RESPUESTA_INTENT_EXPLICITO)
     }
 

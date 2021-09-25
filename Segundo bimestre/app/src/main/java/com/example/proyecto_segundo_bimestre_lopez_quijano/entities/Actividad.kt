@@ -28,8 +28,8 @@ class Actividad(
     }
 
     override fun toString(): String {
-        val format = SimpleDateFormat("dd/MM/yyyy hh:mm a")
-        return "$titulo\n${format.format(fechaVencimiento)}"
+        val format = SimpleDateFormat("dd/MM/yyyy")
+        return "$titulo\nPara el ${format.format(fechaVencimiento)}"
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

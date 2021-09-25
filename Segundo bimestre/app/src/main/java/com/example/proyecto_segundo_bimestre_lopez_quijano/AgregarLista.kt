@@ -10,6 +10,8 @@ class AgregarLista : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crear_lista)
 
+        // TODO: Implementar esta actividad
+
         /*
         val arrelo = arrayListOf<String>("a","b", "c","d","e")
 

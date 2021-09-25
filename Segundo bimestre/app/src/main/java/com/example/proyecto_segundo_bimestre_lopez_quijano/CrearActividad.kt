@@ -21,8 +21,6 @@ import kotlin.collections.ArrayList
 import android.widget.AdapterView
 
 
-
-
 class CrearActividad : AppCompatActivity() {
 
     // Referencias Firestore
@@ -93,7 +91,7 @@ class CrearActividad : AppCompatActivity() {
         val titulo = findViewById<EditText>(R.id.et_tituloCrear).text.toString()
         val descripcion = findViewById<EditText>(R.id.et_descripcionCrear).text.toString()
         val fecha_vencimiento = findViewById<EditText>(R.id.et_fechaVencimientoCrear).text.toString()
-        val prioridad = findViewById<Spinner>(R.id.sp_prioridadCrear).selectedItem.toString()
+        val prioridad = findViewById<Spinner>(R.id.sp_prioridadCrear).selectedItem.toString().toInt()
         val etiqueta = findViewById<Spinner>(R.id.sp_etiquetaCrear).selectedItem.toString()
 
         if(!titulo.isBlank() && !fecha_vencimiento.isBlank()){

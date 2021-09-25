@@ -82,6 +82,12 @@ class ConfigurarLista : AppCompatActivity() {
                     "usuarios" to listaUsuarios.map{it.correo}.toMutableList()
                 )
             )
+        }.addOnSuccessListener {
+            val msg = Toast.makeText(this, "Actualización exitosa", Toast.LENGTH_SHORT)
+            msg.show()
+            // TODO Retornar a la ListaDeActividades enviando la Lista en la que se encontraba
+            // TODO Puede que solo sea llamando a la Actividad (sin parametros)
+            // TODO Si no vale asi, revisar codigo de VisualizarActividad (hace algo similar)
         }
     }
 
