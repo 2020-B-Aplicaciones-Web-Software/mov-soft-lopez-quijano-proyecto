@@ -36,9 +36,7 @@ class CrearActividad : AppCompatActivity() {
     val CODIGO_RESPUESTA_INTENT_EXPLICITO = 401
 
     //Usuario
-    // TODO usuario deberia ser un lateinit var
-    var usuario = Usuario(null,null,null,null)
-    var bandera = false
+    lateinit var usuario : Usuario
 
     // Spinners
     lateinit var spinnerEtiquetas: Spinner
@@ -79,14 +77,11 @@ class CrearActividad : AppCompatActivity() {
                 parent: AdapterView<*>?, view: View,
                 position: Int, id: Long
             ) {
-                // TODO Segun yo esta bandera no tiene uso?
-                if(!bandera){
-                    // Agregar nueva etiqueta
-                    if (position == listaEtiquetas.size - 1) {
-                        bandera = true
-                        mostrarDialogoNuevaEtiqueta(lista)
-                        obtenerEtiquetas(lista.etiquetas)
-                    }
+                // Agregar nueva etiqueta
+                if (position == listaEtiquetas.size - 1) {
+                    // bandera = true
+                    mostrarDialogoNuevaEtiqueta(lista)
+                    obtenerEtiquetas(lista.etiquetas)
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -191,13 +186,12 @@ class CrearActividad : AppCompatActivity() {
                         dialog.dismiss()
                     }
                 }
-                bandera = false
+              //  bandera = false
             }
         // Cancelar
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
             .setOnClickListener {
                 spinnerEtiquetas.setSelection(0)
-                bandera = false
                 dialog.dismiss()
             }
     }

@@ -90,16 +90,21 @@ class ConfigurarLista : AppCompatActivity() {
             //val msg = Toast.makeText(this, "Actualización exitosa", Toast.LENGTH_SHORT)
             //msg.show()
             // TODO mensaje dialogo
-
-            val nuevaLista = Lista(
-                lista!!.id,
-                txtTitulo.text.toString(),
-                ArrayList(listaUsuarios),
-                lista.correoPropietario,
-                lista.etiquetas
-            )
-            abrirActividadEnviandoLista(ListaDeActividades::class.java, nuevaLista)
-
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Lista actualizada con éxito")
+            builder.setPositiveButton("Aceptar") { _, _ ->
+                val nuevaLista = Lista(
+                    lista!!.id,
+                    txtTitulo.text.toString(),
+                    ArrayList(listaUsuarios),
+                    lista.correoPropietario,
+                    lista.etiquetas
+                )
+                abrirActividadEnviandoLista(ListaDeActividades::class.java, nuevaLista)
+            }
+            val dialogo = builder.create()
+            dialogo.setCancelable(false)
+            dialogo.show()
         }
     }
 
@@ -122,6 +127,7 @@ class ConfigurarLista : AppCompatActivity() {
             .setNegativeButton("Cancelar", null)
 
         val dialog = builder.create()
+        dialog.setCancelable(false)
         dialog.show()
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE)

@@ -154,6 +154,7 @@ class CrearLista : AppCompatActivity() {
             .setNegativeButton("Cancelar", null)
 
         val dialog = builder.create()
+        dialog.setCancelable(false)
         dialog.show()
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE)

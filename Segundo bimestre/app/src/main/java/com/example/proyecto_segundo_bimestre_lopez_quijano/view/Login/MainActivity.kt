@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle("Ingresando a la aplicación")
         builder.setMessage("Espere por favor")
         val dialogo = builder.create()
+        dialogo.setCancelable(false)
         dialogo.show()
     }
 
