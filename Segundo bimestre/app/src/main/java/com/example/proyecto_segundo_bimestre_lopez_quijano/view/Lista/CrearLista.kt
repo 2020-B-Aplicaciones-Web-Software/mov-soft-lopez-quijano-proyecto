@@ -14,7 +14,7 @@ import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Usuario
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class AgregarLista : AppCompatActivity() {
+class CrearLista : AppCompatActivity() {
 
     // Referencias Firestore
     val db = Firebase.firestore

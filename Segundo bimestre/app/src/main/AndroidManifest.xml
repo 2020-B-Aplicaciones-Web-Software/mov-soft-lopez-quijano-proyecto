@@ -17,9 +17,9 @@
             android:exported="true"
             android:noHistory="true"/>
         <activity
-            android:name=".view.Lista.AgregarLista"
+            android:name=".view.Lista.CrearLista"
             android:exported="true"
-            android:label="Agregar Lista"
+            android:label="Nueva Lista"
             android:noHistory="true"/>
         <activity
             android:name=".view.Actividad.VisualizarActividad"

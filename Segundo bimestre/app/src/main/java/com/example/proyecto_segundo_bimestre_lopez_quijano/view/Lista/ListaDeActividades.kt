@@ -157,7 +157,7 @@ class ListaDeActividades : AppCompatActivity() {
         subMenu.add("Agregar lista")
             .setIcon(resources.getDrawable(R.drawable.ic_add_list))
             .setOnMenuItemClickListener {
-                abrirActividad(AgregarLista::class.java)
+                abrirActividad(CrearLista::class.java)
                 drawerLayout.closeDrawers()
                 return@setOnMenuItemClickListener false
             }
