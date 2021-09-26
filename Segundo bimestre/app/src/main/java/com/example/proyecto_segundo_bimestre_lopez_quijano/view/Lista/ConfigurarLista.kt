@@ -87,17 +87,19 @@ class ConfigurarLista : AppCompatActivity() {
                 )
             )
         }.addOnSuccessListener {
-            val msg = Toast.makeText(this, "Actualización exitosa", Toast.LENGTH_SHORT)
-            msg.show()
+            //val msg = Toast.makeText(this, "Actualización exitosa", Toast.LENGTH_SHORT)
+            //msg.show()
+            // TODO mensaje dialogo
 
-            // TODO Regresar al presionar el boton? o deberia ejecutarse lo siguiente en el onBackPressed
-            // Si es en el onBackPressed, aqui deberia sobrescribirse la lista del intent
-            // De esta manera, en el onBackPressed tomaria la lista del intent (haya o no sido sobrescrita)
-            /*// Retornar a la actividad
-            val intentExplicito = Intent(this, ListaDeActividades::class.java)
-            intentExplicito.putExtra("listaSeleccionada", lista)
-            startActivityForResult(intentExplicito, CODIGO_RESPUESTA_INTENT_EXPLICITO)
-            */
+            val nuevaLista = Lista(
+                lista!!.id,
+                txtTitulo.text.toString(),
+                ArrayList(listaUsuarios),
+                lista.correoPropietario,
+                lista.etiquetas
+            )
+            abrirActividadEnviandoLista(ListaDeActividades::class.java, nuevaLista)
+
         }
     }
 
@@ -185,6 +187,18 @@ class ConfigurarLista : AppCompatActivity() {
                     usuarioNoExistenteMsg.show()
                 }
             }
+    }
+
+    fun abrirActividadEnviandoLista(clase: Class<*>, lista: Lista) {
+        val intentExplicito = Intent(this, clase)
+        intentExplicito.putExtra("listaSeleccionada", lista)
+        startActivityForResult(intentExplicito, CODIGO_RESPUESTA_INTENT_EXPLICITO)
+    }
+
+    override fun onBackPressed() {
+        // Recibir intent
+        val lista = intent.getParcelableExtra<Lista>("lista")
+        abrirActividadEnviandoLista(ListaDeActividades::class.java, lista!!)
     }
 
 }
