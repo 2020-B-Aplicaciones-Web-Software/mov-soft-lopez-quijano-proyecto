@@ -125,7 +125,7 @@ class CrearLista : AppCompatActivity() {
         listaUsuarios.forEach {
             datosListView.add(it.toString())
         }
-        datosListView.add("+ Agregar miembro")  // Opcion para agregar miembros
+        datosListView.add(Usuario.AGREGAR_MIEMBRO)  // Opcion para agregar miembros
 
         val adapter = ArrayAdapter(
             this,

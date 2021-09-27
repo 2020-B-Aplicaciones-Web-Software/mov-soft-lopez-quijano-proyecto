@@ -33,6 +33,9 @@ class Usuario(
     }
 
     companion object CREATOR : Parcelable.Creator<Usuario> {
+
+        const val AGREGAR_MIEMBRO = "+ Agregar miembro"
+
         override fun createFromParcel(parcel: Parcel): Usuario {
             return Usuario(parcel)
         }

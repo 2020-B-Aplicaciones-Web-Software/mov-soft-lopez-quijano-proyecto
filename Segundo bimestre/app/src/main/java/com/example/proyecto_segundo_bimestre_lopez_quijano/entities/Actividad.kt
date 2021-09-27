@@ -48,6 +48,24 @@ class Actividad(
     }
 
     companion object CREATOR : Parcelable.Creator<Actividad> {
+        // Prioridades
+        const val MAX_PRIORIDAD = 1
+        const val MIN_PRIORIDAD = 5
+
+        // Filtros
+        const val HINT = "Filtro"
+        const val FECHA_ASCENDENTE = "Fecha de vencimiento (Ascendente)"
+        const val FECHA_DESCENDENTE = "Fecha de vencimiento (Descendente)"
+        const val FILTRO_PRIORIDAD = "Por prioridad"
+        const val FILTRO_ETIQUETA = "Por etiqueta"
+        val OPCIONES_FILTRO = arrayListOf(
+            HINT,
+            FECHA_ASCENDENTE,
+            FECHA_DESCENDENTE,
+            FILTRO_PRIORIDAD,
+            FILTRO_ETIQUETA,
+        )
+
         override fun createFromParcel(parcel: Parcel): Actividad {
             return Actividad(parcel)
         }

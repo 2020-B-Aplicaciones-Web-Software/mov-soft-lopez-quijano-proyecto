@@ -63,7 +63,7 @@ class VisualizarActividad : AppCompatActivity() {
         txtDescripcion.setText(actividad.descripcion)
         txtFechaVencimiento.setText(format.format(actividad.fechaVencimiento))
 
-        obtenerPrioridades(spinnerPrioridad)
+        obtenerPrioridades()
         spinnerPrioridad.setSelection(actividad.prioridad - 1)
 
         obtenerEtiquetas(lista.etiquetas!!)
@@ -81,23 +81,23 @@ class VisualizarActividad : AppCompatActivity() {
 
     }
 
-    fun obtenerPrioridades(spinner: Spinner){
-        for (i in 1..5){
+    fun obtenerPrioridades() {
+        for (i in Actividad.MAX_PRIORIDAD .. Actividad.MIN_PRIORIDAD) {
             listaPrioridades.add(i.toString())
         }
         val adapter = ArrayAdapter(
             this, android.R.layout.simple_spinner_dropdown_item, listaPrioridades
         )
-        spinner.adapter = adapter
+        spinnerPrioridad.adapter = adapter
     }
 
     fun obtenerEtiquetas(etiqueta: ArrayList<Etiqueta>){
         listaEtiquetas.clear()
-        listaEtiquetas.add("[Sin etiqueta]")
+        listaEtiquetas.add(Etiqueta.SIN_ETIQUETA)
         for (nombre in etiqueta){
             listaEtiquetas.add(nombre.toString())
         }
-        listaEtiquetas.add("+ Añadir etiqueta")
+        listaEtiquetas.add(Etiqueta.AGREGAR_ETIQUETA)
 
         val adapter = ArrayAdapter(
             this, android.R.layout.simple_spinner_dropdown_item, listaEtiquetas

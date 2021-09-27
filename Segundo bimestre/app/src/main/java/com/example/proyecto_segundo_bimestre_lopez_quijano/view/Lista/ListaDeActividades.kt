@@ -1,12 +1,16 @@
 package com.example.proyecto_segundo_bimestre_lopez_quijano.view.Lista
 
+import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.SubMenu
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ListView
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -15,6 +19,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.marginLeft
 import com.example.proyecto_segundo_bimestre_lopez_quijano.view.Actividad.CrearActividad
 import com.example.proyecto_segundo_bimestre_lopez_quijano.R
 import com.example.proyecto_segundo_bimestre_lopez_quijano.view.Actividad.VisualizarActividad
@@ -44,6 +50,9 @@ class ListaDeActividades : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityListaDeActividadesBinding
+
+    // Spinner
+    lateinit var spinnerFiltro: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +102,30 @@ class ListaDeActividades : AppCompatActivity() {
                 CrearActividad::class.java,
                 listaSeleccionada
             )
+        }
+
+        // Filtros
+        spinnerFiltro = findViewById(R.id.sp_filtro)
+        obtenerFiltros()
+        spinnerFiltro.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                when (Actividad.OPCIONES_FILTRO[position]) {
+                    Actividad.FECHA_ASCENDENTE -> {
+                        Log.i("asd", "Filtro Ascendente")
+                    }
+                    Actividad.FECHA_DESCENDENTE -> {
+                        Log.i("asd", "Filtro Descendente")
+                    }
+                    Actividad.FILTRO_PRIORIDAD -> {
+                        filtrarPorPrioridad()
+                    }
+                    Actividad.FILTRO_ETIQUETA -> {
+                        filtrarPorEtiqueta()
+                    }
+                }
+                spinnerFiltro.setSelection(0)
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -194,14 +227,18 @@ class ListaDeActividades : AppCompatActivity() {
                         usuarioCreador
                     ))
                 }
-                val listViewActividades = findViewById<ListView>(R.id.lv_actividades)
-                val adapter = ArrayAdapter(
-                    this,
-                    android.R.layout.simple_list_item_1,
-                    listaActividades
-                )
-                listViewActividades.adapter = adapter
+                actualizarListView(listaActividades)
             }
+    }
+
+    fun actualizarListView(actividades: MutableList<Actividad>) {
+        val listViewActividades = findViewById<ListView>(R.id.lv_actividades)
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_list_item_1,
+            actividades
+        )
+        listViewActividades.adapter = adapter
     }
 
     fun abrirActividad(clase: Class<*>) {
@@ -231,5 +268,140 @@ class ListaDeActividades : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_lista_de_actividades)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    fun obtenerFiltros() {
+        val opciones = Actividad.OPCIONES_FILTRO
+
+        val adapter = object: ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            opciones
+        ) {
+            override fun isEnabled(position: Int): Boolean {
+                return position != 0
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent) as TextView
+                if (position == 0) {
+                    view.setTextColor(Color.GRAY)
+                }
+                return view
+            }
+        }
+
+        spinnerFiltro.adapter = adapter
+    }
+
+    fun filtrarPorPrioridad() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Escoja las prioridades que desea ver")
+
+        val prioridadesFiltradas: MutableList<Int> = ArrayList()
+
+        builder.setMultiChoiceItems(
+            Array(Actividad.MIN_PRIORIDAD) { (it+1).toString() },
+            BooleanArray(Actividad.MIN_PRIORIDAD)
+        ) { _, index, isChecked ->
+            if (isChecked) {
+                prioridadesFiltradas.add(index + 1)
+            } else {
+                prioridadesFiltradas.remove(index + 1)
+            }
+        }
+
+        builder
+            .setPositiveButton("Filtrar", null)
+            .setNegativeButton("Cancelar", null)
+
+        val dialogo = builder.create()
+        dialogo.setCancelable(false)
+        dialogo.show()
+
+        // Filtrar
+        dialogo.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setOnClickListener {
+                if (prioridadesFiltradas.size == 0) {
+                    val msg = Toast.makeText(this, "Escoja al menos una prioridad", Toast.LENGTH_SHORT)
+                    msg.show()
+                } else {
+                    actualizarListView(
+                        listaActividades.filter { actividad ->
+                            return@filter prioridadesFiltradas.contains(actividad.prioridad)
+                        }.toMutableList()
+                    )
+                    if (prioridadesFiltradas.size == Actividad.MIN_PRIORIDAD) {
+                        marcarFiltroActivado(false)
+                    } else {
+                        marcarFiltroActivado(true)
+                    }
+                    dialogo.dismiss()
+                }
+            }
+        // Cancelar
+        dialogo.getButton(AlertDialog.BUTTON_NEGATIVE)
+            .setOnClickListener {
+                dialogo.dismiss()
+            }
+    }
+
+    fun filtrarPorEtiqueta() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Escoja la etiqueta que desea ver\n")
+
+        val etiquetas: MutableList<Etiqueta> = ArrayList()
+        etiquetas.add(Etiqueta(Etiqueta.SIN_ETIQUETA))
+        etiquetas.addAll(listaSeleccionada.etiquetas!!)
+        etiquetas.add(Etiqueta(Etiqueta.MOSTRAR_TODAS))
+        val spinnerEtiqueta = Spinner(this)
+        spinnerEtiqueta.adapter = ArrayAdapter(
+            this, R.layout.support_simple_spinner_dropdown_item,
+            etiquetas
+        )
+        val scale = resources.displayMetrics.density
+        spinnerEtiqueta.minimumWidth = (10 * scale + 0.5f).toInt()
+        spinnerEtiqueta.minimumHeight = (48 * scale + 0.5f).toInt()
+        spinnerEtiqueta.setPadding(100, 100, 100, 100)
+        spinnerEtiqueta.background = resources.getDrawable(R.drawable.sp_borders)
+        builder.setView(spinnerEtiqueta)
+
+        builder
+            .setPositiveButton("Filtrar", null)
+            .setNegativeButton("Cancelar", null)
+
+        val dialogo = builder.create()
+        dialogo.setCancelable(false)
+        dialogo.show()
+
+        // Filtrar
+        dialogo.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setOnClickListener {
+                if (spinnerEtiqueta.selectedItemPosition != etiquetas.size - 1) {
+                    actualizarListView(
+                        listaActividades.filter { actividad ->
+                            return@filter actividad.etiqueta!! == spinnerEtiqueta.selectedItem
+                        }.toMutableList()
+                    )
+                    marcarFiltroActivado(true)
+                } else {
+                    actualizarListView(listaActividades)
+                    marcarFiltroActivado(false)
+                }
+                dialogo.dismiss()
+            }
+        // Cancelar
+        dialogo.getButton(AlertDialog.BUTTON_NEGATIVE)
+            .setOnClickListener {
+                dialogo.dismiss()
+            }
+    }
+
+    fun marcarFiltroActivado(activado: Boolean) {
+        if (activado) {
+            spinnerFiltro.background = resources.getDrawable(R.drawable.sp_filter_on)
+        } else {
+            spinnerFiltro.background = resources.getDrawable(R.drawable.sp_filter_off)
+        }
     }
 }

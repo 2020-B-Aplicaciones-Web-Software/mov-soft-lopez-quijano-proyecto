@@ -25,19 +25,30 @@
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.038" />
 
     <ListView
         android:id="@+id/lv_actividades"
-        android:layout_width="371dp"
-        android:layout_height="352dp"
+        android:layout_width="375dp"
+        android:layout_height="368dp"
         android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="@+id/btn_agregar_nueva_actividad"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/btn_agregar_nueva_actividad"
         app:layout_constraintTop_toBottomOf="@+id/btn_agregar_nueva_actividad" />
+
+    <Spinner
+        android:id="@+id/sp_filtro"
+        android:layout_width="124dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/sp_filter_off"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_agregar_nueva_actividad"
+        app:layout_constraintStart_toEndOf="@+id/btn_agregar_nueva_actividad"
+        app:layout_constraintTop_toTopOf="@+id/btn_agregar_nueva_actividad"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,6 +15,12 @@ class Etiqueta(
         return nombre!!
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (other is Etiqueta)
+            return this.nombre.equals(other.nombre)
+        return false
+    }
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(nombre)
     }
@@ -24,6 +30,11 @@ class Etiqueta(
     }
 
     companion object CREATOR : Parcelable.Creator<Etiqueta> {
+
+        const val SIN_ETIQUETA = "[Sin etiqueta]"
+        const val AGREGAR_ETIQUETA = "+ Añadir etiqueta"
+        const val MOSTRAR_TODAS = "Mostrar todas"
+
         override fun createFromParcel(parcel: Parcel): Etiqueta {
             return Etiqueta(parcel)
         }

@@ -159,7 +159,7 @@ class ConfigurarLista : AppCompatActivity() {
         listaUsuarios.forEach {
             datosListView.add(it.toString())
         }
-        datosListView.add("+ Agregar miembro")  // Opcion para agregar miembros
+        datosListView.add(Usuario.AGREGAR_MIEMBRO)  // Opcion para agregar miembros
 
         val listViewMiembros = findViewById<ListView>(R.id.lv_miembrosLista)
         val adapter = ArrayAdapter(

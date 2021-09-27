@@ -1,6 +1,5 @@
 package com.example.proyecto_segundo_bimestre_lopez_quijano.view.Actividad
 
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,6 +19,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import android.widget.AdapterView
 import com.example.proyecto_segundo_bimestre_lopez_quijano.R
+import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Actividad
 import com.example.proyecto_segundo_bimestre_lopez_quijano.view.Lista.ListaDeActividades
 
 
@@ -57,7 +57,7 @@ class CrearActividad : AppCompatActivity() {
         obtenerEtiquetas(lista?.etiquetas!!)
 
         // Obtener Prioridad
-        obtenerPrioridad()
+        obtenerPrioridades()
 
         // Obtener usuario
         obtenerUsuario(UsuarioAutorizado.email.toString())
@@ -246,11 +246,11 @@ class CrearActividad : AppCompatActivity() {
 
     fun obtenerEtiquetas(etiquetas: ArrayList<Etiqueta>){
         listaEtiquetas.clear()
-        listaEtiquetas.add("[Sin etiqueta]")
+        listaEtiquetas.add(Etiqueta.SIN_ETIQUETA)
         for (nombre in etiquetas){
             listaEtiquetas.add(nombre.toString())
         }
-        listaEtiquetas.add("+ Añadir etiqueta")
+        listaEtiquetas.add(Etiqueta.AGREGAR_ETIQUETA)
 
         val adapter = ArrayAdapter(
             this, android.R.layout.simple_spinner_dropdown_item, listaEtiquetas
@@ -259,14 +259,13 @@ class CrearActividad : AppCompatActivity() {
         spinnerEtiquetas.adapter = adapter
     }
 
-    fun obtenerPrioridad(){
-        for (i in 1..5){
+    fun obtenerPrioridades(){
+        for (i in Actividad.MAX_PRIORIDAD .. Actividad.MIN_PRIORIDAD) {
             listaPrioridades.add(i.toString())
         }
         val adapter = ArrayAdapter(
-            this, android.R.layout.simple_spinner_item, listaPrioridades
+            this, android.R.layout.simple_spinner_dropdown_item, listaPrioridades
         )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerPrioridad.adapter = adapter
     }
 }
