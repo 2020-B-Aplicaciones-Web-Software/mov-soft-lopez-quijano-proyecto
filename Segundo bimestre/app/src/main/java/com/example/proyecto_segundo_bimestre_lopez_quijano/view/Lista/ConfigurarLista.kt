@@ -87,9 +87,6 @@ class ConfigurarLista : AppCompatActivity() {
                 )
             )
         }.addOnSuccessListener {
-            //val msg = Toast.makeText(this, "Actualización exitosa", Toast.LENGTH_SHORT)
-            //msg.show()
-            // TODO mensaje dialogo
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Lista actualizada con éxito")
             builder.setPositiveButton("Aceptar") { _, _ ->
