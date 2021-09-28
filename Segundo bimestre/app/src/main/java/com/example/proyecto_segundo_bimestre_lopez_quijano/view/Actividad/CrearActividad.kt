@@ -268,4 +268,11 @@ class CrearActividad : AppCompatActivity() {
         )
         spinnerPrioridad.adapter = adapter
     }
+
+    override fun onBackPressed() {
+        val lista = intent.getParcelableExtra<Lista>("lista")
+        val intentExplicito = Intent(this, ListaDeActividades::class.java)
+        intentExplicito.putExtra("listaSeleccionada", lista)
+        startActivityForResult(intentExplicito, CODIGO_RESPUESTA_INTENT_EXPLICITO)
+    }
 }

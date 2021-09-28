@@ -235,11 +235,8 @@ class ListaDeActividades : AppCompatActivity() {
             actividades
         )
         listViewActividades.adapter = adapter
-        val elementosMostrados = actividades.size
         // Si se muestran menos elementos que el total existentes
-        marcarFiltroActivado(
-            elementosMostrados < listaActividades.size
-        )
+        marcarFiltroActivado(filtroActivado)
     }
 
     // Eliminar
@@ -391,6 +388,7 @@ class ListaDeActividades : AppCompatActivity() {
                         return@filter prioridadesFiltradas.contains(actividad.prioridad)
                     }.toMutableList()
                     // Se muestra solo la lista filtrada
+                    filtroActivado = prioridadesFiltradas.size < Actividad.MIN_PRIORIDAD
                     actualizarListView(listaFiltrada)
                     dialogo.dismiss()
                 }
@@ -440,10 +438,12 @@ class ListaDeActividades : AppCompatActivity() {
                         return@filter actividad.etiqueta!! == spinnerEtiqueta.selectedItem
                     }.toMutableList()
                     // Se muestra solo la lista filtrada
+                    filtroActivado = true
                     actualizarListView(listaFiltrada)
                 }
-                // Se escoge la opcion "Mostrar todo"
+                // Se escoge la opcion "Mostrar todas las etiquetas"
                 else {
+                    filtroActivado = false
                     actualizarListView(listaActividades)
                 }
                 dialogo.dismiss()
@@ -466,7 +466,7 @@ class ListaDeActividades : AppCompatActivity() {
 
     // Retroalimentacion para saber si el filtro esta activado
     fun marcarFiltroActivado(activado: Boolean) {
-        filtroActivado = activado
+        //filtroActivado = activado
         if (activado) {
             spinnerFiltro.background = resources.getDrawable(R.drawable.sp_filter_on)
         } else {

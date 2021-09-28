@@ -256,4 +256,9 @@ class CrearLista : AppCompatActivity() {
             }
     }
 
+    override fun onBackPressed() {
+        val intent = Intent(this, ListaDeActividades::class.java)
+        startActivity(intent)
+    }
+
 }

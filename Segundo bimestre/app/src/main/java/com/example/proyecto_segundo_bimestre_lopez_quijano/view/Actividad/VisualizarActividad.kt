@@ -3,6 +3,7 @@ package com.example.proyecto_segundo_bimestre_lopez_quijano.view.Actividad
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog

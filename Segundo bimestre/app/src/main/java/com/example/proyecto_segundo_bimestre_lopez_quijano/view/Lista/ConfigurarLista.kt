@@ -3,6 +3,9 @@ package com.example.proyecto_segundo_bimestre_lopez_quijano.view.Lista
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ContextMenu
+import android.view.MenuItem
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.example.proyecto_segundo_bimestre_lopez_quijano.R
@@ -22,6 +25,7 @@ class ConfigurarLista : AppCompatActivity() {
     // Lista de usuarios (miembros)
     val listaUsuarios: MutableList<Usuario> = ArrayList()
     val datosListView: MutableList<String> = ArrayList()
+    var itemIndex = -1
 
     // Intent
     val CODIGO_RESPUESTA_INTENT_EXPLICITO = 401
@@ -47,6 +51,7 @@ class ConfigurarLista : AppCompatActivity() {
                 mostrarDialogoNuevoMiembro(lista)
             }
         }
+        registerForContextMenu(listViewMiembros)
 
         // Boton actualizar cambios
         val botonActualizar = findViewById<Button>(R.id.btn_actualizarCambiosLista)
@@ -60,13 +65,21 @@ class ConfigurarLista : AppCompatActivity() {
         }
 
         // Boton eliminar lista
-        val btnEliminarLista = findViewById<ImageButton>(R.id.btn_eliminarLista)
-        btnEliminarLista.setOnClickListener {
+        val botonEliminarLista = findViewById<ImageButton>(R.id.btn_eliminarLista)
+        botonEliminarLista.setOnClickListener {
             eliminarLista(lista)
+        }
+
+        // Solo el propietario puede cambiar datos  de la lista
+        if (lista!!.correoPropietario != UsuarioAutorizado.email) {
+            txtTitulo.isEnabled = false
+            botonEliminarLista.visibility = Button.INVISIBLE
+            botonActualizar.visibility = Button.INVISIBLE
         }
 
     }
 
+    // Listas
     fun obtenerUsuarios(lista: Lista?) {
         coleccionUsuario
             .whereIn("correo", lista?.usuarios?.map { it.correo }!!.toMutableList())
@@ -84,6 +97,7 @@ class ConfigurarLista : AppCompatActivity() {
             }
     }
 
+    // Actualizar lista
     fun actualizarCambios(lista: Lista?) {
         val txtTitulo = findViewById<EditText>(R.id.et_tituloConfigurarLista)
         db.runTransaction{ transaction ->
@@ -113,6 +127,7 @@ class ConfigurarLista : AppCompatActivity() {
         }
     }
 
+    // Eliminar lista
     fun eliminarLista(lista: Lista?) {
         // Solo el propietario de la lista puede eliminarla
         if (lista!!.correoPropietario == UsuarioAutorizado.email) {
@@ -252,6 +267,59 @@ class ConfigurarLista : AppCompatActivity() {
                     usuarioNoExistenteMsg.show()
                 }
             }
+    }
+
+    // Eliminar miembro
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_eliminar, menu)
+
+        val info = menuInfo as AdapterView.AdapterContextMenuInfo
+        val id = info.position
+        itemIndex = id
+
+        // Ocultar y mostrar opciones correspondientes
+        val opcionEliminar: MenuItem = menu!!.findItem(R.id.opcion_eliminar)
+
+        // Solo el propietario puede eliminar miembros
+        val lista = intent.getParcelableExtra<Lista>("lista")
+        if (UsuarioAutorizado.email == lista!!.correoPropietario) {
+            // La opcion se deshabilita para la opcion "+ Agregar miembro"
+            opcionEliminar.isVisible = itemIndex != datosListView.size - 1
+        } else {
+            opcionEliminar.isVisible = false
+        }
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        // Se adquiere el correo a eliminar
+        val correoAEliminar = listaUsuarios[itemIndex].correo
+        return when (item?.itemId) {
+            R.id.opcion_eliminar -> {
+                // El creador de la lista no puede eliminarse a si mismo
+                if (correoAEliminar == UsuarioAutorizado.email) {
+                    val msg = Toast.makeText(
+                        this,
+                        "No se puede eliminar a usted mismo",
+                        Toast.LENGTH_SHORT
+                    )
+                    msg.show()
+                }
+                // Eliminar a otro miembro
+                else {
+                    listaUsuarios.removeAt(itemIndex)
+                    actualizarListViewMiembros()
+                }
+                return true
+            }
+            else -> return super.onContextItemSelected(item)
+        }
     }
 
     fun abrirActividadEnviandoLista(clase: Class<*>, lista: Lista) {
