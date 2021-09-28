@@ -64,4 +64,17 @@
         app:layout_constraintEnd_toEndOf="@+id/et_tituloConfigurarLista"
         app:layout_constraintStart_toStartOf="@+id/tv_descripcionCrear2"
         app:layout_constraintTop_toBottomOf="@+id/tv_descripcionCrear2" />
+
+    <ImageButton
+        android:id="@+id/btn_eliminarLista"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:background="@drawable/btn_delete_border"
+        android:backgroundTint="@color/purple_200"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_tituloConfigurarLista"
+        app:layout_constraintStart_toEndOf="@+id/tv_tituloConfigurarLista"
+        app:layout_constraintTop_toTopOf="@+id/tv_tituloConfigurarLista"
+        app:srcCompat="@drawable/ic_delete_list" />
 </androidx.constraintlayout.widget.ConstraintLayout>

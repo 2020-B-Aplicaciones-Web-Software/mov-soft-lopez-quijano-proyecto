@@ -1,9 +1,11 @@
 package com.example.proyecto_segundo_bimestre_lopez_quijano.view.Lista
 
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ContextMenu
+import android.view.MenuItem
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.example.proyecto_segundo_bimestre_lopez_quijano.R
@@ -24,6 +26,7 @@ class CrearLista : AppCompatActivity() {
     // Lista de usuarios (miembros)
     val listaUsuarios: MutableList<Usuario> = ArrayList()
     val datosListView: MutableList<String> = ArrayList()
+    var itemIndex = -1
 
     // Intent
     val CODIGO_RESPUESTA_INTENT_EXPLICITO = 401
@@ -43,6 +46,7 @@ class CrearLista : AppCompatActivity() {
         // Campos
         txtTitulo = findViewById(R.id.et_tituloListaCrear)
         listViewMiembros = findViewById(R.id.lv_miembrosListaCrear)
+        registerForContextMenu(listViewMiembros)
 
 
         // Agregar usuario actual a lista de miembros
@@ -65,6 +69,52 @@ class CrearLista : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_eliminar, menu)
+
+        val info = menuInfo as AdapterView.AdapterContextMenuInfo
+        val id = info.position
+        itemIndex = id
+
+        // Ocultar y mostrar opciones correspondientes
+        val opcionEliminar: MenuItem = menu!!.findItem(R.id.opcion_eliminar)
+
+        // La opcion se deshabilita para la opcion "+ Agregar miembro"
+        opcionEliminar.isVisible = itemIndex != datosListView.size - 1
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        // Se adquiere el correo a eliminar
+        val correoAEliminar = listaUsuarios[itemIndex].correo
+        return when (item?.itemId) {
+            R.id.opcion_eliminar -> {
+                // El creador de la lista no puede eliminarse a si mismo
+                if (correoAEliminar == UsuarioAutorizado.email) {
+                    val msg = Toast.makeText(
+                        this,
+                        "No se puede eliminar a usted mismo",
+                        Toast.LENGTH_SHORT
+                    )
+                    msg.show()
+                }
+                // Eliminar a otro miembro
+                else {
+                    listaUsuarios.removeAt(itemIndex)
+                    actualizarListViewMiembros()
+                }
+                return true
+            }
+            else -> return super.onContextItemSelected(item)
+        }
     }
 
     fun crearLista() {
@@ -105,7 +155,7 @@ class CrearLista : AppCompatActivity() {
 
     fun obtenerUsuarios() {
         coleccionUsuario
-            .whereIn("correo", listaUsuarios.map { it.correo }!!.toMutableList())
+            .whereIn("correo", listaUsuarios.map { it.correo }.toMutableList())
             .get()
             .addOnSuccessListener { documents ->
                 documents.forEach { doc ->

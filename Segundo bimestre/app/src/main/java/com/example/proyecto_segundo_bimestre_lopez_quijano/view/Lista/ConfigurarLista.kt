@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.example.proyecto_segundo_bimestre_lopez_quijano.R
+import com.example.proyecto_segundo_bimestre_lopez_quijano.autenticacion.UsuarioAutorizado
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Lista
 import com.example.proyecto_segundo_bimestre_lopez_quijano.entities.Usuario
 import com.google.firebase.firestore.ktx.firestore
@@ -57,6 +58,13 @@ class ConfigurarLista : AppCompatActivity() {
                 actualizarCambios(lista)
             }
         }
+
+        // Boton eliminar lista
+        val btnEliminarLista = findViewById<ImageButton>(R.id.btn_eliminarLista)
+        btnEliminarLista.setOnClickListener {
+            eliminarLista(lista)
+        }
+
     }
 
     fun obtenerUsuarios(lista: Lista?) {
@@ -102,6 +110,60 @@ class ConfigurarLista : AppCompatActivity() {
             val dialogo = builder.create()
             dialogo.setCancelable(false)
             dialogo.show()
+        }
+    }
+
+    fun eliminarLista(lista: Lista?) {
+        // Solo el propietario de la lista puede eliminarla
+        if (lista!!.correoPropietario == UsuarioAutorizado.email) {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Eliminar lista")
+            builder.setMessage("¿Está seguro de que desea eliminar la lista ${lista.nombre}?")
+            builder
+                .setPositiveButton("Eliminar", null)
+                .setNegativeButton("Cancelar", null)
+            val dialog = builder.create()
+            dialog.setCancelable(false)
+            dialog.show()
+
+            // Eliminar
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setOnClickListener {
+                    // Elimina cada actividad dentro de la lista
+                    val coleccionActividades = db.collection("Lista/${lista.id}/Actividad")
+                    coleccionActividades
+                        .get()
+                        .addOnSuccessListener { documents ->
+                            documents.forEach { doc ->
+                                coleccionActividades.document(doc.id)
+                                    .delete()
+                            }
+                            // Elimina la lista
+                            coleccionLista
+                                .document(lista.id!!)
+                                .delete()
+                                .addOnSuccessListener {
+                                    // Se deshabilita el boton
+                                    val botonActualizar = findViewById<Button>(R.id.btn_actualizarCambiosLista)
+                                    botonActualizar.isEnabled = false
+                                    // Retroalimentacion
+                                    val msg = Toast.makeText(this, "Lista eliminada exitosamente", Toast.LENGTH_SHORT)
+                                    msg.show()
+                                    // Retorna a la lista de actividades sin indicar una lista especifica
+                                    val intent = Intent(this, ListaDeActividades::class.java)
+                                    startActivity(intent)
+                                }
+                        }
+                }
+        }
+        // Caso contrario (usuario no propietario)
+        else {
+            val msg = Toast.makeText(
+                this,
+                "Solo el propietario de la lista puede eliminarla",
+                Toast.LENGTH_SHORT
+            )
+            msg.show()
         }
     }
 
