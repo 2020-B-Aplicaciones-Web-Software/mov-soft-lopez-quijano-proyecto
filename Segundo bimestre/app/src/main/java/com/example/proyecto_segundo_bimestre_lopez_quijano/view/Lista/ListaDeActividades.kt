@@ -1,15 +1,10 @@
 package com.example.proyecto_segundo_bimestre_lopez_quijano.view.Lista
 
-import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.SubMenu
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.navigation.NavigationView
@@ -20,8 +15,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.marginLeft
 import com.example.proyecto_segundo_bimestre_lopez_quijano.view.Actividad.CrearActividad
 import com.example.proyecto_segundo_bimestre_lopez_quijano.R
 import com.example.proyecto_segundo_bimestre_lopez_quijano.view.Actividad.VisualizarActividad
@@ -48,7 +41,9 @@ class ListaDeActividades : AppCompatActivity() {
     // Listas obtenidas
     val listaListas: MutableList<Lista> = ArrayList()
     val listaActividades: MutableList<Actividad> = ArrayList()
-    var elementosMostrados = 0
+    var listaFiltrada: MutableList<Actividad> = ArrayList()
+    var itemIndex = -1
+    var filtroActivado = false
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityListaDeActividadesBinding
@@ -82,6 +77,7 @@ class ListaDeActividades : AppCompatActivity() {
                 listaSeleccionada
             )
         }
+        registerForContextMenu(listViewActividades)
 
         // Configurar lista
         val botonConfigurarLista = findViewById<Button>(R.id.btn_configurar_lista)
@@ -130,6 +126,7 @@ class ListaDeActividades : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+    // Listas
     fun obtenerListas() {
         // Obtener documentas de Lista
         coleccionLista
@@ -238,13 +235,80 @@ class ListaDeActividades : AppCompatActivity() {
             actividades
         )
         listViewActividades.adapter = adapter
-        elementosMostrados = actividades.size
+        val elementosMostrados = actividades.size
         // Si se muestran menos elementos que el total existentes
         marcarFiltroActivado(
             elementosMostrados < listaActividades.size
         )
     }
 
+    // Eliminar
+    fun eliminarActividad(actividad: Actividad) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Eliminar actividad")
+        builder.setMessage("¿Está seguro de que eliminar la actividad ${actividad.titulo}?")
+        builder
+            .setPositiveButton("Eliminar", null)
+            .setNegativeButton("Cancelar", null)
+        val dialogo = builder.create()
+        dialogo.setCancelable(false)
+        dialogo.show()
+        // Eliminar
+        dialogo.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setOnClickListener{
+                db.collection("Lista/${listaSeleccionada.id}/Actividad")
+                    .document(actividad.id!!)
+                    .delete()
+                    .addOnSuccessListener {
+                        val msg = Toast.makeText(this, "Actividad eliminada exitosamente", Toast.LENGTH_SHORT)
+                        msg.show()
+                        dialogo.dismiss()
+                        listaActividades.remove(actividad)
+                        listaFiltrada.remove(actividad)
+                        if (filtroActivado)
+                            actualizarListView(listaFiltrada)
+                        else
+                            actualizarListView(listaActividades)
+                    }
+            }
+        // Cancelar
+        dialogo.getButton(AlertDialog.BUTTON_NEGATIVE)
+            .setOnClickListener {
+                dialogo.dismiss()
+            }
+    }
+
+    // Menu contextual
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        menuInflater.inflate(R.menu.menu_eliminar, menu)
+        val info = menuInfo as AdapterView.AdapterContextMenuInfo
+        itemIndex = info.position
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        // Se obtiene la actividad seleccionada
+        val actividad = if (filtroActivado)
+            listaFiltrada[itemIndex]
+        else
+            listaActividades[itemIndex]
+        return when (item?.itemId) {
+            // Eliminar actividad
+            R.id.opcion_eliminar -> {
+                eliminarActividad(actividad)
+                return true
+            }
+            else -> {
+                super.onContextItemSelected(item)
+            }
+        }
+    }
+
+    // Transicion a actividades (intents)
     fun abrirActividad(clase: Class<*>) {
         val intent = Intent(this, clase)
         startActivity(intent)
@@ -263,17 +327,7 @@ class ListaDeActividades : AppCompatActivity() {
         startActivityForResult(intentExplicito, CODIGO_RESPUESTA_INTENT_EXPLICITO)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.lista_de_actividades, menu)
-        return true
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_lista_de_actividades)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
-
+    // Filtros
     fun obtenerFiltros() {
         val opciones = Actividad.OPCIONES_FILTRO
 
@@ -333,7 +387,7 @@ class ListaDeActividades : AppCompatActivity() {
                     msg.show()
                 } else {
                     // Se obtiene una lista filtrada
-                    val listaFiltrada = listaActividades.filter { actividad ->
+                    listaFiltrada = listaActividades.filter { actividad ->
                         return@filter prioridadesFiltradas.contains(actividad.prioridad)
                     }.toMutableList()
                     // Se muestra solo la lista filtrada
@@ -382,7 +436,7 @@ class ListaDeActividades : AppCompatActivity() {
                 // Se escoge una etiqueta para filtrar
                 if (spinnerEtiqueta.selectedItemPosition != etiquetas.size - 1) {
                     // Se obtiene una lista filtrada
-                    val listaFiltrada = listaActividades.filter { actividad ->
+                    listaFiltrada = listaActividades.filter { actividad ->
                         return@filter actividad.etiqueta!! == spinnerEtiqueta.selectedItem
                     }.toMutableList()
                     // Se muestra solo la lista filtrada
@@ -401,6 +455,7 @@ class ListaDeActividades : AppCompatActivity() {
             }
     }
 
+    // Ordenar
     fun ordenarAscendentemente(ascendente: Boolean) {
         if (ascendente)
             listaActividades.sortBy { it.fechaVencimiento }
@@ -411,10 +466,23 @@ class ListaDeActividades : AppCompatActivity() {
 
     // Retroalimentacion para saber si el filtro esta activado
     fun marcarFiltroActivado(activado: Boolean) {
+        filtroActivado = activado
         if (activado) {
             spinnerFiltro.background = resources.getDrawable(R.drawable.sp_filter_on)
         } else {
             spinnerFiltro.background = resources.getDrawable(R.drawable.sp_filter_off)
         }
+    }
+
+    // Navigation Drawer
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.lista_de_actividades, menu)
+        return true
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment_content_lista_de_actividades)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }
