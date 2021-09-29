@@ -48,8 +48,11 @@ class ListaDeActividades : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityListaDeActividadesBinding
 
-    // Spinner
+    // Campos
+    lateinit var botonAgregarActividad: Button
     lateinit var spinnerFiltro: Spinner
+    lateinit var botonConfigurarLista: Button
+    lateinit var txtMensaje: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,9 +68,6 @@ class ListaDeActividades : AppCompatActivity() {
             setOf(R.id.nav_lista_actividades), drawerLayout
         )
 
-        // Agregar items al menu desplegable
-        obtenerListas()
-
         // List View
         val listViewActividades = findViewById<ListView>(R.id.lv_actividades)
         listViewActividades.setOnItemClickListener { adapterView, view, position, l ->
@@ -80,7 +80,7 @@ class ListaDeActividades : AppCompatActivity() {
         registerForContextMenu(listViewActividades)
 
         // Configurar lista
-        val botonConfigurarLista = findViewById<Button>(R.id.btn_configurar_lista)
+        botonConfigurarLista = findViewById(R.id.btn_configurar_lista)
         botonConfigurarLista.setOnClickListener {
             abrirActividadEnviandoLista(
                 ConfigurarLista::class.java,
@@ -89,7 +89,7 @@ class ListaDeActividades : AppCompatActivity() {
         }
 
         // Agregar Actividad
-        val botonAgregarActividad = findViewById<Button>(R.id.btn_agregar_nueva_actividad)
+        botonAgregarActividad = findViewById(R.id.btn_agregar_nueva_actividad)
         botonAgregarActividad.setOnClickListener {
             abrirActividadEnviandoLista(
                 CrearActividad::class.java,
@@ -120,6 +120,12 @@ class ListaDeActividades : AppCompatActivity() {
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
+
+        // Mensaje si no existen listas
+        txtMensaje = findViewById(R.id.tv_mensajeInicial)
+
+        // Agregar items al menu desplegable
+        obtenerListas()
 
         // Controlador del Navigation Drawer
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -166,21 +172,30 @@ class ListaDeActividades : AppCompatActivity() {
 
         // Mostrar siempre la primera lista si no se regresa de una lista diferente
         val listaIntent = intent.getParcelableExtra<Lista>("listaSeleccionada")
-        listaSeleccionada = listaIntent ?: listaListas[0]
-        mostrarActividadesDeListaActual(listaSeleccionada)
 
-        // Agrega las opciones al menu y su funcionalidad
-        listaListas.forEach { lista ->
-            subMenu.add(lista.nombre)
-                .setIcon(resources.getDrawable(R.drawable.ic_list_icon))
-                .setOnMenuItemClickListener {
-                    mostrarActividadesDeListaActual(lista)
-                    listaSeleccionada = lista
-                    drawerLayout.closeDrawers()
-                    return@setOnMenuItemClickListener false
-                }
+        // Se comprueba que existan listas
+        if (listaListas.isNotEmpty()) {
+            mostrarControles(true)
+            listaSeleccionada = listaIntent ?: listaListas[0]
+            mostrarActividadesDeListaActual(listaSeleccionada)
+
+            // Agrega las opciones al menu y su funcionalidad
+            listaListas.forEach { lista ->
+                subMenu.add(lista.nombre)
+                    .setIcon(resources.getDrawable(R.drawable.ic_list_icon))
+                    .setOnMenuItemClickListener {
+                        mostrarActividadesDeListaActual(lista)
+                        listaSeleccionada = lista
+                        drawerLayout.closeDrawers()
+                        return@setOnMenuItemClickListener false
+                    }
+            }
         }
-
+        // Si no existen listas
+        else {
+            mostrarControles(false)
+            txtMensaje.text = "Bienvenido!\nPara comenzar, cree una nueva lista en el menú desplegable de la izquierda"
+        }
         // Boton para agregar listas
         subMenu.add("Agregar lista")
             .setIcon(resources.getDrawable(R.drawable.ic_add_list))
@@ -222,7 +237,6 @@ class ListaDeActividades : AppCompatActivity() {
                         usuarioCreador
                     ))
                 }
-                //actualizarListView(listaActividades)
                 ordenarAscendentemente(true)
             }
     }
@@ -484,5 +498,20 @@ class ListaDeActividades : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_lista_de_actividades)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    // Ocultar campos no requeridos
+    fun mostrarControles(mostrar: Boolean) {
+        if (mostrar) {
+            botonAgregarActividad.visibility = Button.VISIBLE
+            spinnerFiltro.visibility = Spinner.VISIBLE
+            botonConfigurarLista.visibility = Button.VISIBLE
+            txtMensaje.visibility = TextView.INVISIBLE
+        } else {
+            botonAgregarActividad.visibility = Button.INVISIBLE
+            spinnerFiltro.visibility = Spinner.INVISIBLE
+            botonConfigurarLista.visibility = Button.INVISIBLE
+            txtMensaje.visibility = TextView.VISIBLE
+        }
     }
 }

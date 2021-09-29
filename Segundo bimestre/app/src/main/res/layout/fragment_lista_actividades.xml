@@ -13,6 +13,7 @@
         android:layout_marginTop="44dp"
         android:text="Configurar lista"
         android:textAllCaps="true"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/lv_actividades"
         app:layout_constraintStart_toStartOf="@+id/lv_actividades"
         app:layout_constraintTop_toBottomOf="@+id/lv_actividades" />
@@ -23,6 +24,7 @@
         android:layout_height="wrap_content"
         android:text="Agregar nueva actividad"
         android:textAllCaps="true"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.098"
@@ -46,9 +48,23 @@
         android:layout_height="48dp"
         android:layout_marginStart="12dp"
         android:background="@drawable/sp_filter_off"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/btn_agregar_nueva_actividad"
         app:layout_constraintStart_toEndOf="@+id/btn_agregar_nueva_actividad"
         app:layout_constraintTop_toTopOf="@+id/btn_agregar_nueva_actividad"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_mensajeInicial"
+        android:layout_width="302dp"
+        android:layout_height="278dp"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
