@@ -194,7 +194,7 @@ class ListaDeActividades : AppCompatActivity() {
         // Si no existen listas
         else {
             mostrarControles(false)
-            txtMensaje.text = "Bienvenido!\nPara comenzar, cree una nueva lista en el menú desplegable de la izquierda"
+            txtMensaje.text = "¡Bienvenido!\nPara comenzar, cree una nueva lista en el menú desplegable de la izquierda"
         }
         // Boton para agregar listas
         subMenu.add("Agregar lista")

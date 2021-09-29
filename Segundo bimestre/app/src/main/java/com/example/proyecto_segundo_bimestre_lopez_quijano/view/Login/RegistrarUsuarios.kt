@@ -116,12 +116,6 @@ class RegistrarUsuarios : AppCompatActivity() {
         dialogo.show()
     }
 
-    override fun onStart() {
-        super.onStart()
-        val usuarioActual: FirebaseUser? = mAuth.currentUser
-
-    }
-
     fun abrirActividad(actividad: Class<*>) {
         val intent = Intent(this, actividad)
         startActivity(intent)
